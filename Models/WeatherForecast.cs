@@ -1,6 +1,6 @@
 using System;
 
-namespace Task12 {
+namespace Models {
     public class WeatherForecast {
         public DateTime Date { get; set; }
 
