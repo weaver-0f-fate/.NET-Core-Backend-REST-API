@@ -43,8 +43,8 @@ namespace Task12 {
             services.AddTransient<IRepository<Operation>, OperationsRepository>();
             services.AddTransient<IRepository<OperationType>, OperationTypesRepository>();
 
-            services.AddTransient<ICrudService<Operation>, OperationsService>();
-            services.AddTransient<ICrudService<OperationType>, OperationTypesService>();
+            services.AddTransient<IService<Operation>, OperationsService>();
+            services.AddTransient<IService<OperationType>, OperationTypesService>();
 
         }
 

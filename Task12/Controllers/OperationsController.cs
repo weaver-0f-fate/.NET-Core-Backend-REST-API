@@ -13,9 +13,9 @@ namespace Task12.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class OperationsController : ControllerBase {
-        private readonly ICrudService<Operation> _operationsService;
+        private readonly IService<Operation> _operationsService;
 
-        public OperationsController(ICrudService<Operation> service) {
+        public OperationsController(IService<Operation> service) {
             _operationsService = service;
         }
 

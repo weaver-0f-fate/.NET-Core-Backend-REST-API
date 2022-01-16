@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Services.Services {
-    public abstract class AbstractService<T> : ICrudService<T> where T : AbstractModel {
+    public abstract class AbstractService<T> : IService<T> where T : AbstractModel {
         protected readonly IRepository<T> Repository;
 
         protected AbstractService(IRepository<T> repository) {
