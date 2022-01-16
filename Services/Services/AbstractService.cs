@@ -13,24 +13,30 @@ namespace Services.Services {
             Repository = repository;
         }
 
-        public Task<T> CreateAsync(T item) {
-            throw new NotImplementedException();
+        public async Task<IEnumerable<T>> GetAllItemsAsync() {
+            return await Repository.GetEntitiesListAsync();
         }
 
-        public Task DeleteAsync(int id) {
-            throw new NotImplementedException();
-        }
+        public async Task<T> GetAsync(int? id) {
+            if (id is null) {
+                throw new Exception("No such entity in database");
+            }
 
-        public Task<IEnumerable<T>> GetAllItemsAsync() {
-            throw new NotImplementedException();
-        }
+            var item = await Repository.GetEntityAsync((int)id);
+            if (item is null) {
+                throw new Exception("No such entity in database");
+            }
+            return item;
 
-        public Task<T> GetAsync(int? id) {
-            throw new NotImplementedException();
         }
-
-        public Task<T> UpdateAsync(T item) {
-            throw new NotImplementedException();
+        public async Task CreateAsync(T item) {
+            await Repository.CreateAsync(item);
+        }
+        public async Task UpdateAsync(T item) {
+            await Repository.UpdateAsync(item);
+        }
+        public async Task DeleteAsync(int id) {
+            await Repository.DeleteAsync(id);
         }
     }
 }
