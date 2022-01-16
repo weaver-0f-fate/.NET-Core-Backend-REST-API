@@ -1,40 +1,78 @@
-﻿using Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Data.Repositories {
-    public class AbstractRepository<T> : IRepository<T> where T : AbstractModel{
-        public Task CreateAsync(T item) {
-            throw new NotImplementedException();
+    public abstract class AbstractRepository<T> : IRepository<T> where T : AbstractModel{
+        protected readonly OperationsContext Context;
+        private readonly DbSet<T> _repository;
+        private bool _disposed;
+
+        protected AbstractRepository(OperationsContext context, DbSet<T> repo) {
+            Context = context;
+            _repository = repo;
         }
 
-        public Task DeleteAsync(int id) {
-            throw new NotImplementedException();
+
+        public abstract Task<IEnumerable<T>> GetEntitiesListAsync();
+
+
+        public async Task<T> GetEntityAsync(int id) {
+            if (id < 0) {
+                return null;
+            }
+            var item = await GetItemAsync(id);
+            if (item is null) {
+                throw new Exception("No such entity in Database");
+            }
+            return item;
+        }
+        protected abstract Task<T> GetItemAsync(int id);
+
+
+        public async Task CreateAsync(T item) {
+            if (item is null) {
+                return;
+            }
+            await Context.AddAsync(item);
+            await SaveAsync();
+
+        }
+        public async Task UpdateAsync(T item) {
+            if (item is null) {
+                return;
+            }
+            Context.Update(item);
+            await SaveAsync();
+
+        }
+        public async Task DeleteAsync(int id) {
+            var item = await GetEntityAsync(id);
+            _repository.Remove(item);
+            await SaveAsync();
+
+        }
+        public async Task<bool> ExistsAsync(int id) {
+            return await _repository.AnyAsync(e => e.Id == id);
+        }
+        public async  Task SaveAsync() {
+            await Context.SaveChangesAsync();
         }
 
-        public void Dispose() {
-            throw new NotImplementedException();
+        public async void Dispose() {
+            await DisposeAsync(true);
+            GC.SuppressFinalize(this);
+        }
+        private async Task DisposeAsync(bool disposing) {
+            if (!_disposed) {
+                if (disposing) {
+                    await Context.DisposeAsync();
+                }
+            }
+            _disposed = true;
         }
 
-        public Task<bool> ExistsAsync(int id) {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<T>> GetEntitiesListAsync() {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> GetEntityAsync(int id) {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveAsync() {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(T item) {
-            throw new NotImplementedException();
-        }
     }
 }

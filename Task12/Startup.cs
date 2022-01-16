@@ -1,4 +1,5 @@
 using Data;
+using Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,10 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Models;
+using Services.Intrefaces;
+using Services.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OperationType = Models.OperationType;
 
 namespace Task12 {
     public class Startup {
@@ -34,6 +39,13 @@ namespace Task12 {
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Task12", Version = "v1" });
             });
+
+            services.AddTransient<IRepository<Operation>, OperationsRepository>();
+            services.AddTransient<IRepository<OperationType>, OperationTypesRepository>();
+
+            services.AddTransient<ICrudService<Operation>, OperationsService>();
+            services.AddTransient<ICrudService<OperationType>, OperationTypesService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
