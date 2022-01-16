@@ -1,7 +1,9 @@
+using Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,8 +24,13 @@ namespace Task12 {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            var connection = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<OperationsContext>(options => 
+                options.UseSqlServer(connection));
 
             services.AddControllers();
+            
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Task12", Version = "v1" });
             });
@@ -40,8 +47,6 @@ namespace Task12 {
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
