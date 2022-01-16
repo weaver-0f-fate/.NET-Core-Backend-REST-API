@@ -1,10 +1,16 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Data.Repositories {
-    class IRepository {
+    public interface IRepository<T> : IDisposable where T : AbstractModel {
+        Task<IEnumerable<T>> GetEntitiesListAsync();
+        Task<T> GetEntityAsync(int id);
+        Task CreateAsync(T item);
+        Task UpdateAsync(T item);
+        Task DeleteAsync(int id);
+        Task SaveAsync();
+        Task<bool> ExistsAsync(int id);
     }
 }
