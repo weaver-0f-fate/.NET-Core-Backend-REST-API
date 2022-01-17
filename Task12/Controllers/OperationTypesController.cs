@@ -17,14 +17,14 @@ namespace Task12.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OperationType>>> Get() {
+        public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> Get() {
             var operationTypes =  await _service.GetAllItemsAsync();
             return operationTypes.ToList();
         }
 
         // GET api/operationTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OperationType>> Get(int id) {
+        public async Task<ActionResult<OperationTypeDTO>> Get(int id) {
             var operationType = await _service.GetAsync(id);
             if (operationType == null) {
                 return NotFound();
@@ -35,7 +35,7 @@ namespace Task12.Controllers {
 
         // POST api/operationTypes
         [HttpPost]
-        public async Task<ActionResult<OperationType>> Post(OperationType operationType) {
+        public async Task<ActionResult<OperationTypeDTO>> Post(OperationTypeDTO operationType) {
             if (operationType == null) {
                 return BadRequest();
             }
@@ -46,7 +46,7 @@ namespace Task12.Controllers {
 
         // PUT api/operationTypes/
         [HttpPut]
-        public async Task<ActionResult<OperationType>> Put(OperationType operationType) {
+        public async Task<ActionResult<OperationTypeDTO>> Put(OperationTypeDTO operationType) {
             if (operationType == null) {
                 return BadRequest();
             }
@@ -56,7 +56,7 @@ namespace Task12.Controllers {
 
         // DELETE api/operationTypes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<OperationType>> Delete(int id) {
+        public async Task<ActionResult<OperationTypeDTO>> Delete(int id) {
             var operationType = _service.GetAsync(id);
             if (operationType == null) {
                 return NotFound();

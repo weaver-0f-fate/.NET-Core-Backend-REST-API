@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Services.ModelsDTO;
 
 namespace Task12.Controllers {
     [Route("api/[controller]")]
@@ -21,14 +22,14 @@ namespace Task12.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Operation>>> Get() {
+        public async Task<ActionResult<IEnumerable<OperationDTO>>> Get() {
             var operations = await _operationsService.GetAllItemsAsync();
             return operations.ToList();
         }
 
         // GET api/operations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Operation>> Get(int id) {
+        public async Task<ActionResult<OperationDTO>> Get(int id) {
             var operation = await _operationsService.GetAsync(id);
             if (operation == null) {
                 return NotFound();
@@ -39,7 +40,7 @@ namespace Task12.Controllers {
 
         // POST api/operations
         [HttpPost]
-        public async Task<ActionResult<Operation>> Post(Operation operation) {
+        public async Task<ActionResult<OperationDTO>> Post(OperationDTO operation) {
             if (operation == null) {
                 return BadRequest();
             }
@@ -49,7 +50,7 @@ namespace Task12.Controllers {
 
         // PUT api/operations/
         [HttpPut]
-        public async Task<ActionResult<Operation>> Put(Operation operation) {
+        public async Task<ActionResult<OperationDTO>> Put(OperationDTO operation) {
             if (operation == null) {
                 return BadRequest();
             }
@@ -59,7 +60,7 @@ namespace Task12.Controllers {
 
         // DELETE api/operations/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<OperationType>> Delete(int id) {
+        public async Task<ActionResult<OperationDTO>> Delete(int id) {
             var operation = await _operationsService.GetAsync(id);
             if (operation == null) {
                 return NotFound();
