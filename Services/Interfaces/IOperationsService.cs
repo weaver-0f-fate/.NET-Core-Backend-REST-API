@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces {
     public interface IOperationsService : IService<Operation, OperationDTO>{
-        public Task<Outcome> GetOperationsAtDateAsync(DateTime date);
-        public Task<Outcome> GetOperationsAtPeriodAsync(DateTime startDate, DateTime endDate);
+        public Task<OutcomeDTO> GetOperationsAtDateAsync(DateTime date);
+        public Task<OutcomeDTO> GetOperationsAtPeriodAsync(DateTime startDate, DateTime endDate);
     }
 }

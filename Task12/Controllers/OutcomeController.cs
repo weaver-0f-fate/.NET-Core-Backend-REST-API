@@ -1,14 +1,9 @@
-﻿using Data;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using Core.Models;
 using Services.Interfaces;
-using Services.Intrefaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Services.ModelsDTO;
 
 namespace Task12.Controllers {
     [Route("api/[controller]")]
@@ -22,25 +17,19 @@ namespace Task12.Controllers {
 
         // GET api/outcome/5
         [HttpGet, Route("Date")]
-        public async Task<ActionResult<Outcome>> Get(string dateString) {
-            DateTime.TryParse(dateString, out var date);
+        public async Task<ActionResult<OutcomeDTO>> Get(DateTime date) {
             var outcome = await _service.GetOperationsAtDateAsync(date);
             return outcome;
         }
 
         // GET api/outcome/5
         [HttpGet, Route("Period")]
-        public async Task<ActionResult<Outcome>> Get(string startDateString, string endDateString) {
-            DateTime.TryParse(startDateString, out var startDate);
-            DateTime.TryParse(endDateString, out var endDate);
-
-
+        public async Task<ActionResult<OutcomeDTO>> Get(DateTime startDate, DateTime endDate) {
             var outcome = await _service.GetOperationsAtPeriodAsync(startDate, endDate);
             if (outcome == null) {
                 return NotFound();
             }
             return outcome;
         }
-
     }
 }

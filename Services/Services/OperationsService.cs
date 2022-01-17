@@ -14,14 +14,16 @@ namespace Services.Services {
             _repository = repository;
         }
 
-        public async Task<Outcome> GetOperationsAtDateAsync(DateTime date) {
+        public async Task<OutcomeDTO> GetOperationsAtDateAsync(DateTime date) {
             var operations = await _repository.GetOperationsAtSpefcifiedDateAsync(date);
-            return CalculateOutcome(operations, date, date);
+            var outcome = CalculateOutcome(operations, date, date);
+            return Mapper.Map<OutcomeDTO>(outcome);
         }
 
-        public async Task<Outcome> GetOperationsAtPeriodAsync(DateTime startDate, DateTime endDate) {
+        public async Task<OutcomeDTO> GetOperationsAtPeriodAsync(DateTime startDate, DateTime endDate) {
             var operations = await _repository.GetOperationsAtSpefcifiedPeriodAsync(startDate, endDate);
-            return CalculateOutcome(operations, startDate, endDate);
+            var outcome = CalculateOutcome(operations, startDate, endDate);
+            return Mapper.Map<OutcomeDTO>(outcome);
         }
 
         private Outcome CalculateOutcome(IEnumerable<Operation> operations, DateTime startDate, DateTime endDate) {

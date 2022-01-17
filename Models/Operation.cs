@@ -6,5 +6,6 @@ namespace Core.Models {
         public OperationType OperationType { get; set; }
         public DateTime Date { get; set; }
         public double Amount { get; set; }
+        
     }
 }
