@@ -22,24 +22,24 @@ namespace Task12.Controllers {
 
         // GET api/outcome/5
         [HttpGet, Route("Date")]
-        public async Task<ActionResult<IEnumerable<Operation>>> Get(string dateString) {
+        public async Task<ActionResult<Outcome>> Get(string dateString) {
             DateTime.TryParse(dateString, out var date);
-            var operations = await _service.GetOperationsAtDateAsync(date);
-            return operations.ToList();
+            var outcome = await _service.GetOperationsAtDateAsync(date);
+            return outcome;
         }
 
         // GET api/outcome/5
         [HttpGet, Route("Period")]
-        public async Task<ActionResult<IEnumerable<Operation>>> Get(string startDateString, string endDateString) {
+        public async Task<ActionResult<Outcome>> Get(string startDateString, string endDateString) {
             DateTime.TryParse(startDateString, out var startDate);
             DateTime.TryParse(endDateString, out var endDate);
 
 
-            var operations = await _service.GetOperationsAtPeriodAsync(startDate, endDate);
-            if (operations == null) {
+            var outcome = await _service.GetOperationsAtPeriodAsync(startDate, endDate);
+            if (outcome == null) {
                 return NotFound();
             }
-            return operations.ToList();
+            return outcome;
         }
 
     }

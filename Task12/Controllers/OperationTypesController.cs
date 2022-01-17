@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Services.Intrefaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,27 +13,22 @@ namespace Task12.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class OperationTypesController : ControllerBase {
-        OperationsContext _dbContext;
+        IService<OperationType> _service;
 
-        public OperationTypesController(OperationsContext context) {
-            _dbContext = context;
-
-            if (!_dbContext.OperationTypes.Any()) {
-                _dbContext.OperationTypes.Add(new OperationType { Name = "Purchase" });
-                _dbContext.OperationTypes.Add(new OperationType { Name = "Salary" });
-                _dbContext.SaveChanges();
-            }
+        public OperationTypesController(IService<OperationType> service) {
+            _service = service;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OperationType>>> Get() {
-            return await _dbContext.OperationTypes.ToListAsync();
+            var operationTypes =  await _service.GetAllItemsAsync();
+            return operationTypes.ToList();
         }
 
         // GET api/operationTypes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OperationType>> Get(int id) {
-            var operationType = await _dbContext.OperationTypes.FirstOrDefaultAsync(type => type.Id == id);
+            var operationType = await _service.GetAsync(id);
             if (operationType == null) {
                 return NotFound();
             }
@@ -47,8 +43,7 @@ namespace Task12.Controllers {
                 return BadRequest();
             }
 
-            _dbContext.OperationTypes.Add(operationType);
-            await _dbContext.SaveChangesAsync();
+            await _service.CreateAsync(operationType);
             return Ok(operationType);
         }
 
@@ -58,24 +53,18 @@ namespace Task12.Controllers {
             if (operationType == null) {
                 return BadRequest();
             }
-            if (!_dbContext.OperationTypes.Any(x => x.Id == operationType.Id)) {
-                return NotFound();
-            }
-
-            _dbContext.Update(operationType);
-            await _dbContext.SaveChangesAsync();
+            await _service.UpdateAsync(operationType);
             return Ok(operationType);
         }
 
         // DELETE api/operationTypes/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<OperationType>> Delete(int id) {
-            var operationType = _dbContext.OperationTypes.FirstOrDefault(x => x.Id == id);
+            var operationType = _service.GetAsync(id);
             if (operationType == null) {
                 return NotFound();
             }
-            _dbContext.OperationTypes.Remove(operationType);
-            await _dbContext.SaveChangesAsync();
+            await _service.DeleteAsync(id);
             return Ok(operationType);
         }
 

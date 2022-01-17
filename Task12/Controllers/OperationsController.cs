@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Services.Interfaces;
 using Services.Intrefaces;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,9 @@ namespace Task12.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class OperationsController : ControllerBase {
-        private readonly IService<Operation> _operationsService;
+        private readonly IOperationsService _operationsService;
 
-        public OperationsController(IService<Operation> service) {
+        public OperationsController(IOperationsService service) {
             _operationsService = service;
         }
 
