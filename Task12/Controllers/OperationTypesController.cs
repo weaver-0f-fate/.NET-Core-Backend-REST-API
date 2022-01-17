@@ -1,21 +1,18 @@
-﻿using Data;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Core.Models;
 using Services.Intrefaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Services.ModelsDTO;
 
 namespace Task12.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class OperationTypesController : ControllerBase {
-        IService<OperationType> _service;
+        IService<OperationType, OperationTypeDTO> _service;
 
-        public OperationTypesController(IService<OperationType> service) {
+        public OperationTypesController(IService<OperationType, OperationTypeDTO> service) {
             _service = service;
         }
 

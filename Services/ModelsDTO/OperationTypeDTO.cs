@@ -1,5 +1,4 @@
 ﻿namespace Services.ModelsDTO {
-    public class OperationTypeDTO {
-        public string Name { get; set; }
+    public class OperationTypeDTO : AbstractDTO{
     }
 }

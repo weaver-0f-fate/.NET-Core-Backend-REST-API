@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models;
+using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

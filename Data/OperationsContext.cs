@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models;
+using Core.Models;
 
 namespace Data {
     public class OperationsContext : DbContext{

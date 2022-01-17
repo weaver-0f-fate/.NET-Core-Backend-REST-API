@@ -1,13 +1,14 @@
-﻿using Models;
+﻿using Core.Models;
+using Services.ModelsDTO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Services.Intrefaces {
-    public interface IService<T> where T : AbstractModel {
-        Task<IEnumerable<T>> GetAllItemsAsync();
-        Task<T> GetAsync(int? id);
-        Task CreateAsync(T item);
-        Task UpdateAsync(T item);
+    public interface IService<TModel, TDTO> where TModel : AbstractModel where TDTO : AbstractDTO {
+        Task<IEnumerable<TDTO>> GetAllItemsAsync();
+        Task<TDTO> GetAsync(int? id);
+        Task CreateAsync(TDTO item);
+        Task UpdateAsync(TDTO item);
         Task DeleteAsync(int id);
 
     }

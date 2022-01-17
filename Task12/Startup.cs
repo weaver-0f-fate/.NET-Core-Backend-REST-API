@@ -10,15 +10,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Models;
+using Core.Models;
 using Services.Interfaces;
 using Services.Intrefaces;
 using Services.Services;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OperationType = Models.OperationType;
+using OperationType = Core.Models.OperationType;
+using Services.ModelsDTO;
 
 namespace Task12 {
     public class Startup {
@@ -31,6 +33,8 @@ namespace Task12 {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             var connection = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddDbContext<OperationsContext>(options => 
                 options.UseSqlServer(connection));
@@ -45,7 +49,7 @@ namespace Task12 {
             services.AddTransient<IRepository<OperationType>, OperationTypesRepository>();
 
             services.AddTransient<IOperationsService, OperationsService>();
-            services.AddTransient<IService<OperationType>, OperationTypesService>();
+            services.AddTransient<IService<OperationType, OperationTypeDTO>, OperationTypesService>();
 
         }
 

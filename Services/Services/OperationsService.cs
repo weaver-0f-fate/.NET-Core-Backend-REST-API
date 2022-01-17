@@ -1,14 +1,16 @@
-﻿using Data.Repositories;
-using Models;
+﻿using AutoMapper;
+using Data.Repositories;
+using Core.Models;
 using Services.Interfaces;
+using Services.ModelsDTO;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Services.Services {
-    public class OperationsService : AbstractService<Operation>, IOperationsService {
+    public class OperationsService : AbstractService<Operation, OperationDTO>, IOperationsService {
         private IOperationsRepository _repository;
-        public OperationsService(IOperationsRepository repository) : base(repository) {
+        public OperationsService(IOperationsRepository repository, IMapper mapper) : base(repository, mapper) {
             _repository = repository;
         }
 
