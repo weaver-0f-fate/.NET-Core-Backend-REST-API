@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Models;
+using Services.Interfaces;
 using Services.Intrefaces;
 using Services.Services;
 using System;
@@ -40,10 +41,10 @@ namespace Task12 {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Task12", Version = "v1" });
             });
 
-            services.AddTransient<IRepository<Operation>, OperationsRepository>();
+            services.AddTransient<IOperationsRepository, OperationsRepository>();
             services.AddTransient<IRepository<OperationType>, OperationTypesRepository>();
 
-            services.AddTransient<IService<Operation>, OperationsService>();
+            services.AddTransient<IOperationsService, OperationsService>();
             services.AddTransient<IService<OperationType>, OperationTypesService>();
 
         }

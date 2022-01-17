@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Services.Interfaces;
+using Services.Intrefaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,32 +14,32 @@ namespace Task12.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class OutcomeController : ControllerBase {
-        OperationsContext _dbContext;
+        private IOperationsService _service;
 
-        public OutcomeController(OperationsContext context) {
-            _dbContext = context;
+        public OutcomeController(IOperationsService service) {
+            _service = service;
         }
 
+        // GET api/outcome/5
         [HttpGet, Route("Date")]
         public async Task<ActionResult<IEnumerable<Operation>>> Get(string dateString) {
             DateTime.TryParse(dateString, out var date);
-            return await _dbContext.Operations.Where(x => x.Date.Date == date.Date).ToListAsync();
+            var operations = await _service.GetOperationsAtDateAsync(date);
+            return operations.ToList();
         }
 
-        // GET api/operations/5
+        // GET api/outcome/5
         [HttpGet, Route("Period")]
         public async Task<ActionResult<IEnumerable<Operation>>> Get(string startDateString, string endDateString) {
             DateTime.TryParse(startDateString, out var startDate);
             DateTime.TryParse(endDateString, out var endDate);
-            var operations = _dbContext.Operations
-                .Where(operation => 
-                operation.Date >= startDate && 
-                operation.Date <= endDate);
+
+
+            var operations = await _service.GetOperationsAtPeriodAsync(startDate, endDate);
             if (operations == null) {
                 return NotFound();
             }
-
-            return await operations.ToListAsync();
+            return operations.ToList();
         }
 
     }
