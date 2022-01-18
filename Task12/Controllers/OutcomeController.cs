@@ -3,7 +3,7 @@ using Core.Models.Models;
 using Services.Interfaces;
 using System;
 using System.Threading.Tasks;
-using Services.ModelsDTO;
+using Services.DataTransferObjects;
 
 namespace Task12.Controllers {
     [Route("api/[controller]")]

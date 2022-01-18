@@ -4,7 +4,7 @@ using Services.Intrefaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Services.ModelsDTO;
+using Services.DataTransferObjects;
 
 namespace Task12.Controllers {
     [Route("api/[controller]")]
@@ -56,12 +56,11 @@ namespace Task12.Controllers {
 
         // DELETE api/operationTypes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<OperationTypeDTO>> Delete(int id) {
-            var operationType = _service.GetAsync(id);
+        public async Task<ActionResult<OperationTypeDTO>> Delete(OperationTypeDTO operationType) {
             if (operationType == null) {
                 return NotFound();
             }
-            await _service.DeleteAsync(id);
+            await _service.DeleteAsync(operationType);
             return Ok(operationType);
         }
 

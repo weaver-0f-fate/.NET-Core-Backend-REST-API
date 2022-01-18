@@ -1,5 +1,5 @@
 ﻿using Core.Models.Models;
-using Services.ModelsDTO;
+using Services.DataTransferObjects;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +9,7 @@ namespace Services.Intrefaces {
         Task<TDTO> GetAsync(int? id);
         Task CreateAsync(TDTO item);
         Task UpdateAsync(TDTO item);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(TDTO item);
 
     }
 }

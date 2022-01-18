@@ -11,9 +11,10 @@ using Services.Interfaces;
 using Services.Intrefaces;
 using Services.Services;
 using OperationType = Core.Models.Models.OperationType;
-using Services.ModelsDTO;
+using Services.DataTransferObjects;
 using Data.Interfaces;
 using Core.Models.Models;
+using Task12.Extensions;
 
 namespace Task12 {
     public class Startup {
@@ -37,6 +38,8 @@ namespace Task12 {
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Task12", Version = "v1" });
             });
+
+            services.ConfigureRepositoryWrapper();
 
             services.AddTransient<IRepository<Operation>, OperationsRepository>();
             services.AddTransient<IRepository<OperationType>, OperationTypesRepository>();

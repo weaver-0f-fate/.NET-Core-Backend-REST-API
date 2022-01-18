@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Data.Interfaces;
 using Core.Models.Models;
-using Services.ModelsDTO;
+using Services.DataTransferObjects;
 
 namespace Services.Services {
     public class OperationTypesService : AbstractService<OperationType, OperationTypeDTO> {
-        public OperationTypesService(IRepository<OperationType> repository, IMapper mapper) : base(repository, mapper) { }
+        public OperationTypesService(IRepositoryWrapper repository, IMapper mapper) 
+            : base(repository.OperationTypes, mapper) { }
     }
 }

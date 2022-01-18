@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services.ModelsDTO {
+namespace Services.DataTransferObjects {
     public class OutcomeDTO {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace Services.ModelsDTO {
+﻿namespace Services.DataTransferObjects {
     public class OperationTypeDTO : AbstractDTO{
     }
 }

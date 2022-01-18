@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Core.Models.Models;
 using Services.Interfaces;
-using Services.ModelsDTO;
+using Services.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,22 +10,20 @@ using Data.Interfaces;
 
 namespace Services.Services {
     public class OperationsService : AbstractService<Operation, OperationDTO>, IOperationsService {
-        private IRepository<Operation> _repository;
-        public OperationsService(IRepository<Operation> repository, IMapper mapper) : base(repository, mapper) {
+        private IRepositoryWrapper _repository;
+        public OperationsService(IRepositoryWrapper repository, IMapper mapper) 
+            : base(repository.Operations, mapper) {
             _repository = repository;
         }
 
         public async Task<OutcomeDTO> GetOperationsAtDateAsync(DateTime date) {
-            Expression<Func<Operation, bool>> expression = x => x.Date.Date == date.Date;
-            var operations = await _repository.GetByConditionAsync(expression);
+            var operations = await _repository.Operations.GetOperationsAtDateAsync(date);
             var outcome = CalculateOutcome(operations, date, date);
             return Mapper.Map<OutcomeDTO>(outcome);
         }
 
         public async Task<OutcomeDTO> GetOperationsAtPeriodAsync(DateTime startDate, DateTime endDate) {
-            Expression<Func<Operation, bool>> expression = x => 
-                x.Date.Date >= startDate.Date && x.Date <= endDate.Date;
-            var operations = await _repository.GetByConditionAsync(expression);
+            var operations = await _repository.Operations.GetOperationsAtPeriodAsync(startDate, endDate);
             var outcome = CalculateOutcome(operations, startDate, endDate);
             return Mapper.Map<OutcomeDTO>(outcome);
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Services.ModelsDTO {
+namespace Services.DataTransferObjects {
     public class OperationDTO : AbstractDTO {
         public string OperationType { get; set; }
         public DateTime Date { get; set; }

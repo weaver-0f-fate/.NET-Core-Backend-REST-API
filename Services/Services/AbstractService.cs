@@ -2,7 +2,7 @@
 using Data.Interfaces;
 using Core.Models.Models;
 using Services.Intrefaces;
-using Services.ModelsDTO;
+using Services.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -29,7 +29,7 @@ namespace Services.Services {
                 throw new Exception("No such entity in database");
             }
 
-            var item = await Repository.GetEntityAsync((int)id);
+            var item = await Repository.GetByConditionAsync(x => x.Id == (int)id);
             if (item is null) {
                 throw new Exception("No such entity in database");
             }
@@ -44,8 +44,9 @@ namespace Services.Services {
             var item = Mapper.Map<TModel>(itemDTO);
             await Repository.UpdateAsync(item);
         }
-        public async Task DeleteAsync(int id) {
-            await Repository.DeleteAsync(id);
+        public async Task DeleteAsync(TDTO itemDTO) {
+            var item = Mapper.Map<TModel>(itemDTO);
+            await Repository.DeleteAsync(item);
         }
     }
 }
