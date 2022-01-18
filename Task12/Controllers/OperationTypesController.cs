@@ -10,22 +10,22 @@ namespace Task12.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class OperationTypesController : ControllerBase {
-        IService<OperationType, OperationTypeDTO> _service;
+        IService<OperationType, OperationTypeDTO> _operationTypesService;
 
         public OperationTypesController(IService<OperationType, OperationTypeDTO> service) {
-            _service = service;
+            _operationTypesService = service;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> Get() {
-            var operationTypes =  await _service.GetAllItemsAsync();
+            var operationTypes =  await _operationTypesService.GetAllItemsAsync();
             return operationTypes.ToList();
         }
 
         // GET api/operationTypes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OperationTypeDTO>> Get(int id) {
-            var operationType = await _service.GetAsync(id);
+            var operationType = await _operationTypesService.GetByIdAsync(id);
             if (operationType == null) {
                 return NotFound();
             }
@@ -40,7 +40,7 @@ namespace Task12.Controllers {
                 return BadRequest();
             }
 
-            await _service.CreateAsync(operationType);
+            await _operationTypesService.CreateAsync(operationType);
             return Ok(operationType);
         }
 
@@ -50,17 +50,18 @@ namespace Task12.Controllers {
             if (operationType == null) {
                 return BadRequest();
             }
-            await _service.UpdateAsync(operationType);
+            await _operationTypesService.UpdateAsync(operationType);
             return Ok(operationType);
         }
 
         // DELETE api/operationTypes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<OperationTypeDTO>> Delete(OperationTypeDTO operationType) {
+        public async Task<ActionResult<OperationTypeDTO>> Delete(int id) {
+            var operationType = _operationTypesService.GetByIdAsync(id);
             if (operationType == null) {
                 return NotFound();
             }
-            await _service.DeleteAsync(operationType);
+            await _operationTypesService.DeleteAsync(id);
             return Ok(operationType);
         }
 

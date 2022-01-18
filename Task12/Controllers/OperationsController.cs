@@ -1,11 +1,5 @@
-﻿using Data;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Core.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
-using Services.Intrefaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +24,7 @@ namespace Task12.Controllers {
         // GET api/operations/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OperationDTO>> Get(int id) {
-            var operation = await _operationsService.GetAsync(id);
+            var operation = await _operationsService.GetByIdAsync(id);
             if (operation == null) {
                 return NotFound();
             }
@@ -40,7 +34,7 @@ namespace Task12.Controllers {
 
         // POST api/operations
         [HttpPost]
-        public async Task<ActionResult<OperationDTO>> Post(OperationDTO operation) {
+        public async Task<ActionResult<OperationDTO>> Post([FromBody]OperationDTO operation) {
             if (operation == null) {
                 return BadRequest();
             }
@@ -50,7 +44,7 @@ namespace Task12.Controllers {
 
         // PUT api/operations/
         [HttpPut]
-        public async Task<ActionResult<OperationDTO>> Put(OperationDTO operation) {
+        public async Task<ActionResult<OperationDTO>> Put(int id, [FromBody]OperationDTO operation) {
             if (operation == null) {
                 return BadRequest();
             }
@@ -60,11 +54,12 @@ namespace Task12.Controllers {
 
         // DELETE api/operations/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<OperationDTO>> Delete(OperationDTO operation) {
+        public async Task<ActionResult<OperationDTO>> Delete(int id) {
+            var operation = _operationsService.GetByIdAsync(id);
             if (operation == null) {
                 return NotFound();
             }
-            await _operationsService.DeleteAsync(operation);
+            await _operationsService.DeleteAsync(id);
             return Ok(operation);
         }
     }

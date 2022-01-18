@@ -2,12 +2,11 @@
 using Services.Intrefaces;
 using Services.DataTransferObjects;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Services.Interfaces {
     public interface IOperationsService : IService<Operation, OperationDTO>{
-        public Task<OutcomeDTO> GetOperationsAtDateAsync(DateTime date);
-        public Task<OutcomeDTO> GetOperationsAtPeriodAsync(DateTime startDate, DateTime endDate);
+        public Task<OutcomeDTO> GetAtDateAsync(DateTime date);
+        public Task<OutcomeDTO> GetAtPeriodAsync(DateTime startDate, DateTime endDate);
     }
 }

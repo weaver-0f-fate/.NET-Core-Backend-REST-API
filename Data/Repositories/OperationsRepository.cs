@@ -1,7 +1,9 @@
 ﻿using Core.Models.Models;
 using Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -10,15 +12,27 @@ namespace Data.Repositories {
 
         public OperationsRepository(RepositoryContext context) : base(context) { }
 
-        public async Task<IEnumerable<Operation>> GetOperationsAtDateAsync(DateTime date) {
-            Expression<Func<Operation, bool>> expression = x => x.Date.Date == date.Date;
-            return await GetByConditionAsync(expression);
+
+        public override async Task<IEnumerable<Operation>> GetAllAsync() {
+            return await Context.Set<Operation>()
+                    .AsNoTracking()
+                    .Include(x => x.OperationType)
+                    .ToListAsync();
+        }
+        public override async Task<IEnumerable<Operation>> GetByConditionAsync(Expression<Func<Operation, bool>> expression) {
+            return await Context.Set<Operation>()
+                    .Where(expression)
+                    .AsNoTracking()
+                    .Include(x => x.OperationType)
+                    .ToListAsync();
         }
 
-        public async Task<IEnumerable<Operation>> GetOperationsAtPeriodAsync(DateTime startDate, DateTime endDate) {
-            Expression<Func<Operation, bool>> expression = x =>
-                x.Date.Date >= startDate.Date && x.Date <= endDate.Date;
-            return await GetByConditionAsync(expression);
+        public async Task<IEnumerable<Operation>> GetAtDateAsync(DateTime date) {
+            return await GetByConditionAsync(x => x.Date.Date == date.Date);
+        }
+
+        public async Task<IEnumerable<Operation>> GetAtPeriodAsync(DateTime startDate, DateTime endDate) {
+            return await GetByConditionAsync(x => x.Date.Date >= startDate.Date && x.Date <= endDate.Date);
         }
     }
 }

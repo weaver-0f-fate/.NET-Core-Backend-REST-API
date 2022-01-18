@@ -5,7 +5,6 @@ using Services.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq.Expressions;
 using Data.Interfaces;
 
 namespace Services.Services {
@@ -15,23 +14,22 @@ namespace Services.Services {
             : base(repository.Operations, mapper) {
             _repository = repository;
         }
-
-        public async Task<OutcomeDTO> GetOperationsAtDateAsync(DateTime date) {
-            var operations = await _repository.Operations.GetOperationsAtDateAsync(date);
-            var outcome = CalculateOutcome(operations, date, date);
-            return Mapper.Map<OutcomeDTO>(outcome);
+        public async Task<OutcomeDTO> GetAtDateAsync(DateTime date) {
+            var operations = await _repository.Operations.GetAtDateAsync(date);
+            return CalculateOutcome(operations, date, date);
         }
 
-        public async Task<OutcomeDTO> GetOperationsAtPeriodAsync(DateTime startDate, DateTime endDate) {
-            var operations = await _repository.Operations.GetOperationsAtPeriodAsync(startDate, endDate);
-            var outcome = CalculateOutcome(operations, startDate, endDate);
-            return Mapper.Map<OutcomeDTO>(outcome);
+        public async Task<OutcomeDTO> GetAtPeriodAsync(DateTime startDate, DateTime endDate) {
+            var operations = await _repository.Operations.GetAtPeriodAsync(startDate, endDate);
+            return CalculateOutcome(operations, startDate, endDate);
         }
 
-        private Outcome CalculateOutcome(IEnumerable<Operation> operations, DateTime startDate, DateTime endDate) {
+        private OutcomeDTO CalculateOutcome(IEnumerable<Operation> operations, DateTime startDate, DateTime endDate) {
+            var operationDTOs = Mapper.Map<IEnumerable<OperationDTO>>(operations);
             double totalIncome = 0, totalExpenses = 0;
 
-            foreach (var operation in operations) {
+
+            foreach (var operation in operationDTOs) {
                 if (operation.Amount >= 0) {
                     totalIncome += operation.Amount;
                 }
@@ -40,10 +38,10 @@ namespace Services.Services {
                 }
             }
 
-            return new Outcome {
+            return new OutcomeDTO {
                 StartDate = startDate,
                 EndDate = endDate,
-                Operations = new List<Operation>(operations),
+                Operations = new List<OperationDTO>(operationDTOs),
                 TotalExpenses = totalExpenses,
                 TotalIncome = totalIncome
             };

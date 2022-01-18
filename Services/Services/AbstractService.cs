@@ -23,18 +23,9 @@ namespace Services.Services {
             var items = await Repository.GetAllAsync();
             return Mapper.Map<IEnumerable<TDTO>>(items);
         }
-
-        public async Task<TDTO> GetAsync(int? id) {
-            if (id is null) {
-                throw new Exception("No such entity in database");
-            }
-
-            var item = await Repository.GetByConditionAsync(x => x.Id == (int)id);
-            if (item is null) {
-                throw new Exception("No such entity in database");
-            }
+        public async Task<TDTO> GetByIdAsync(int id) {
+            var item = await Repository.GetByIdAsync(id);
             return Mapper.Map<TDTO>(item);
-
         }
         public async Task CreateAsync(TDTO itemDTO) {
             var item = Mapper.Map<TModel>(itemDTO);
@@ -44,8 +35,8 @@ namespace Services.Services {
             var item = Mapper.Map<TModel>(itemDTO);
             await Repository.UpdateAsync(item);
         }
-        public async Task DeleteAsync(TDTO itemDTO) {
-            var item = Mapper.Map<TModel>(itemDTO);
+        public async Task DeleteAsync(int id) {
+            var item = await Repository.GetByIdAsync(id);
             await Repository.DeleteAsync(item);
         }
     }

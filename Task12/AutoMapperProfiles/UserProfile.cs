@@ -13,9 +13,6 @@ namespace Task12.AutoMapperProfiles {
                 .ForMember(x => x.OperationType, 
                     y => y.MapFrom(src => src.OperationType.Name));
             CreateMap<OperationDTO, Operation>();
-
-            CreateMap<Outcome, OutcomeDTO>();
-            CreateMap<OutcomeDTO, Outcome>();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Core.Models.Models;
 using Services.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -18,14 +17,14 @@ namespace Task12.Controllers {
         // GET api/outcome/5
         [HttpGet, Route("Date")]
         public async Task<ActionResult<OutcomeDTO>> Get(DateTime date) {
-            var outcome = await _service.GetOperationsAtDateAsync(date);
+            var outcome = await _service.GetAtDateAsync(date);
             return outcome;
         }
 
         // GET api/outcome/5
         [HttpGet, Route("Period")]
         public async Task<ActionResult<OutcomeDTO>> Get(DateTime startDate, DateTime endDate) {
-            var outcome = await _service.GetOperationsAtPeriodAsync(startDate, endDate);
+            var outcome = await _service.GetAtPeriodAsync(startDate, endDate);
             if (outcome == null) {
                 return NotFound();
             }

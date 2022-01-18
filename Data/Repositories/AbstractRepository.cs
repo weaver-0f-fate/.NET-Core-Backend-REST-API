@@ -17,15 +17,13 @@ namespace Data.Repositories {
         }
 
 
-        public async Task<IEnumerable<T>> GetAllAsync() {
-            return await Context.Set<T>().AsNoTracking().ToListAsync();
+        public abstract Task<IEnumerable<T>> GetAllAsync();
+        public abstract Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression);
+        public async Task<T> GetByIdAsync(int id) {
+            var items = await GetByConditionAsync(x => x.Id == id);
+            return items.FirstOrDefault();
         }
-        public async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression) {
-            return await Context.Set<T>()
-                .Where(expression)
-                .AsNoTracking()
-                .ToListAsync();
-        }
+
         public async Task CreateAsync(T item) {
             if (item is null) {
                 return;
