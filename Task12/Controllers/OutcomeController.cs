@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Core.Models;
+using Core.Models.Models;
 using Services.Interfaces;
 using System;
 using System.Threading.Tasks;

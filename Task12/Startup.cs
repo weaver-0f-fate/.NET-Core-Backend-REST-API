@@ -2,25 +2,18 @@ using Data;
 using Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Core.Models;
 using Services.Interfaces;
 using Services.Intrefaces;
 using Services.Services;
-using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OperationType = Core.Models.OperationType;
+using OperationType = Core.Models.Models.OperationType;
 using Services.ModelsDTO;
+using Data.Interfaces;
+using Core.Models.Models;
 
 namespace Task12 {
     public class Startup {
@@ -36,7 +29,7 @@ namespace Task12 {
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddDbContext<OperationsContext>(options => 
+            services.AddDbContext<RepositoryContext>(options => 
                 options.UseSqlServer(connection));
 
             services.AddControllers();
@@ -45,7 +38,7 @@ namespace Task12 {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Task12", Version = "v1" });
             });
 
-            services.AddTransient<IOperationsRepository, OperationsRepository>();
+            services.AddTransient<IRepository<Operation>, OperationsRepository>();
             services.AddTransient<IRepository<OperationType>, OperationTypesRepository>();
 
             services.AddTransient<IOperationsService, OperationsService>();

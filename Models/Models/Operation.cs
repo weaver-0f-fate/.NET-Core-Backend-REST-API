@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.Models {
+namespace Core.Models.Models {
     public class Operation : AbstractModel {
         public int OperationTypeId { get; set; }
         public OperationType OperationType { get; set; }

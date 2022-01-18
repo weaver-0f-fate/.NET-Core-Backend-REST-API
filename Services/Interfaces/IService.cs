@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.Models.Models;
 using Services.ModelsDTO;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,42 +1,36 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Core.Models;
+using Core.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Data.Interfaces;
+using System.Linq.Expressions;
+using System.Linq;
 
 namespace Data.Repositories {
     public abstract class AbstractRepository<T> : IRepository<T> where T : AbstractModel{
-        protected readonly OperationsContext Context;
-        private readonly DbSet<T> _repository;
+        protected readonly RepositoryContext Context;
         private bool _disposed;
 
-        protected AbstractRepository(OperationsContext context, DbSet<T> repo) {
+        protected AbstractRepository(RepositoryContext context) {
             Context = context;
-            _repository = repo;
         }
 
 
-        public abstract Task<IEnumerable<T>> GetEntitiesListAsync();
-
-
-        public async Task<T> GetEntityAsync(int id) {
-            if (id < 0) {
-                return null;
-            }
-            var item = await GetItemAsync(id);
-            if (item is null) {
-                throw new Exception("No such entity in Database");
-            }
-            return item;
+        public async Task<IEnumerable<T>> GetAllAsync() {
+            return await Context.Set<T>().AsNoTracking().ToListAsync();
         }
-        protected abstract Task<T> GetItemAsync(int id);
-
-
+        public async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression) {
+            return await Context.Set<T>()
+                .Where(expression)
+                .AsNoTracking()
+                .ToListAsync();
+        }
         public async Task CreateAsync(T item) {
             if (item is null) {
                 return;
             }
-            await Context.AddAsync(item);
+            await Context.Set<T>().AddAsync(item);
             await SaveAsync();
 
         }
@@ -44,18 +38,16 @@ namespace Data.Repositories {
             if (item is null) {
                 return;
             }
-            Context.Update(item);
+            Context.Set<T>().Update(item);
             await SaveAsync();
 
         }
-        public async Task DeleteAsync(int id) {
-            var item = await GetEntityAsync(id);
-            _repository.Remove(item);
+        public async Task DeleteAsync(T item) {
+            Context.Set<T>().Remove(item);
             await SaveAsync();
-
         }
-        public async Task<bool> ExistsAsync(int id) {
-            return await _repository.AnyAsync(e => e.Id == id);
+        public async Task<bool> ExistsAsync(T item) {
+            return await Context.Set<T>().AnyAsync(x => x == item);
         }
         public async  Task SaveAsync() {
             await Context.SaveChangesAsync();
@@ -73,6 +65,5 @@ namespace Data.Repositories {
             }
             _disposed = true;
         }
-
     }
 }

@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.Models.Models;
 using Services.Intrefaces;
 using Services.ModelsDTO;
 using System;

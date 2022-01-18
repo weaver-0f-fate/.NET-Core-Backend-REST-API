@@ -1,18 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Core.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Core.Models.Models;
+using Data.Interfaces;
 
 namespace Data.Repositories {
-    public class OperationTypesRepository : AbstractRepository<OperationType>{
-        public OperationTypesRepository(OperationsContext context) : base(context, context.OperationTypes) { }
-
-        public override async Task<IEnumerable<OperationType>> GetEntitiesListAsync() {
-            return await Context.OperationTypes.AsNoTracking().ToListAsync();
-        }
-
-        protected override async Task<OperationType> GetItemAsync(int id) {
-            return await Context.OperationTypes.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
-        }
+    public class OperationTypesRepository : AbstractRepository<OperationType>, IOperationTypesRepository{
+        public OperationTypesRepository(RepositoryContext context) : base(context) { }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Data.Repositories;
-using Core.Models;
+using Data.Interfaces;
+using Core.Models.Models;
 using Services.ModelsDTO;
 
 namespace Services.Services {

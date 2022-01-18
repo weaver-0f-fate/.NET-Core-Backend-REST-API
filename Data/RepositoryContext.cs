@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Core.Models;
+using Core.Models.Models;
 
 namespace Data {
-    public class OperationsContext : DbContext{
-        public OperationsContext(DbContextOptions<OperationsContext> options) 
+    public class RepositoryContext : DbContext{
+        public RepositoryContext(DbContextOptions<RepositoryContext> options) 
             : base(options) {
             Database.EnsureCreated();
         }

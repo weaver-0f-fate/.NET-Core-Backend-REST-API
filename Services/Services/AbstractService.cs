@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Data.Repositories;
-using Core.Models;
+using Data.Interfaces;
+using Core.Models.Models;
 using Services.Intrefaces;
 using Services.ModelsDTO;
 using System;
@@ -20,7 +20,7 @@ namespace Services.Services {
         }
 
         public async Task<IEnumerable<TDTO>> GetAllItemsAsync() {
-            var items = await Repository.GetEntitiesListAsync();
+            var items = await Repository.GetAllAsync();
             return Mapper.Map<IEnumerable<TDTO>>(items);
         }
 

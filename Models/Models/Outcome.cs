@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Core.Models {
+namespace Core.Models.Models {
     public class Outcome {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
