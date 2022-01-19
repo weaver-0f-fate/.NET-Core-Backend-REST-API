@@ -1,5 +1,4 @@
 using Data;
-using Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +9,8 @@ using Microsoft.OpenApi.Models;
 using Services.Interfaces;
 using Services.Intrefaces;
 using Services.Services;
-using OperationType = Core.Models.Models.OperationType;
+using OperationType = Core.Models.OperationType;
 using Services.DataTransferObjects;
-using Data.Interfaces;
-using Core.Models.Models;
 using Task12.Extensions;
 
 namespace Task12 {
@@ -39,13 +36,12 @@ namespace Task12 {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Task12", Version = "v1" });
             });
 
+
+
             services.ConfigureRepositoryWrapper();
 
-            services.AddTransient<IRepository<Operation>, OperationsRepository>();
-            services.AddTransient<IRepository<OperationType>, OperationTypesRepository>();
-
             services.AddTransient<IOperationsService, OperationsService>();
-            services.AddTransient<IService<OperationType, OperationTypeDTO>, OperationTypesService>();
+            services.AddTransient<IOperationTypesService, OperationTypesService>();
 
         }
 
@@ -56,6 +52,8 @@ namespace Task12 {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Task12 v1"));
             }
+
+            app.ConfigureExceptionHandler();
 
             app.UseHttpsRedirection();
 

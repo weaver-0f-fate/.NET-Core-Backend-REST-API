@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.Models.Models;
+using Core.Models;
 using Services.Interfaces;
 using Services.DataTransferObjects;
 using System;

@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Core.Models.Models;
-using Services.Intrefaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Services.DataTransferObjects;
+using Services.Interfaces;
 
 namespace Task12.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class OperationTypesController : ControllerBase {
-        IService<OperationType, OperationTypeDTO> _operationTypesService;
+        IOperationTypesService _operationTypesService;
 
-        public OperationTypesController(IService<OperationType, OperationTypeDTO> service) {
+        public OperationTypesController(IOperationTypesService service) {
             _operationTypesService = service;
         }
 

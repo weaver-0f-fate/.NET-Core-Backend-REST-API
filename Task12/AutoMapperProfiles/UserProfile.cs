@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.Models.Models;
+using Core.Models;
 using Services.DataTransferObjects;
 
 namespace Task12.AutoMapperProfiles {

@@ -1,4 +1,4 @@
-﻿namespace Core.Models.Models {
+﻿namespace Core.Models {
     public class OperationType : AbstractModel {
 
     }

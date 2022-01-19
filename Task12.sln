@@ -5,13 +5,11 @@ VisualStudioVersion = 16.0.31829.152
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task12", "Task12\Task12.csproj", "{B8884F7F-1148-43A2-AD9B-3D4DABEC2FD8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{E9A2DB71-7900-4848-98C5-E022F7320B61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Models\Core.csproj", "{E9A2DB71-7900-4848-98C5-E022F7320B61}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{99D3FB73-66F6-45E1-B249-4ECFF5A01FE1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{99E8292B-E19A-45EF-A44A-DBD6F75AC3BC}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1B3EBB82-B57D-4FDC-AFF7-768963E0647C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,9 +36,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{E9A2DB71-7900-4848-98C5-E022F7320B61} = {1B3EBB82-B57D-4FDC-AFF7-768963E0647C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FB8900FC-810C-4FBA-9DA5-406A5887CD42}
