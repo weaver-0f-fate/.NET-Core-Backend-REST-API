@@ -9,7 +9,7 @@ namespace Services.Intrefaces {
         Task<TDTO> GetByIdAsync(int id);
         Task CreateAsync(TDTO item);
         Task UpdateAsync(TDTO item);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(TDTO item);
 
     }
 }

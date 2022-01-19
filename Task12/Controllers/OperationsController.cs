@@ -44,22 +44,26 @@ namespace Task12.Controllers {
 
         // PUT api/operations/
         [HttpPut]
-        public async Task<ActionResult<OperationDTO>> Put(int id, [FromBody]OperationForUpdateDTO operation) {
-            if (operation == null) {
-                return BadRequest();
+        public async Task<ActionResult<OperationDTO>> Put(int id, [FromBody]OperationForUpdateDTO updatedOperation) {
+            if (updatedOperation == null) {
+                return BadRequest("Operation object is null");
             }
-            await _operationsService.UpdateOperationAsync(operation);
+            var operation = await _operationsService.GetByIdAsync(id);
+            if (operation is null) {
+                return NotFound($"There is no Operation Type with id: {id}");
+            }
+            await _operationsService.UpdateOperationAsync(id, updatedOperation);
             return Ok(operation);
         }
 
         // DELETE api/operations/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<OperationDTO>> Delete(int id) {
-            var operation = _operationsService.GetByIdAsync(id);
+            var operation = await _operationsService.GetByIdAsync(id);
             if (operation == null) {
                 return NotFound();
             }
-            await _operationsService.DeleteAsync(id);
+            await _operationsService.DeleteAsync(operation);
             return Ok(operation);
         }
     }

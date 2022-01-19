@@ -35,8 +35,8 @@ namespace Services.Services {
             var item = Mapper.Map<TModel>(itemDTO);
             await Repository.UpdateAsync(item);
         }
-        public async Task DeleteAsync(int id) {
-            var item = await Repository.GetByIdAsync(id);
+        public async Task DeleteAsync(TDTO itemDTO) {
+            var item = Mapper.Map<TModel>(itemDTO);
             await Repository.DeleteAsync(item);
         }
     }

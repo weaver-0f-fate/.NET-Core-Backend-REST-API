@@ -61,11 +61,11 @@ namespace Task12.Controllers {
         // DELETE api/operationTypes/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<OperationTypeDTO>> Delete(int id) {
-            var operationType = _operationTypesService.GetByIdAsync(id);
+            var operationType = await _operationTypesService.GetByIdAsync(id);
             if (operationType == null) {
                 return NotFound();
             }
-            await _operationTypesService.DeleteAsync(id);
+            await _operationTypesService.DeleteAsync(operationType);
             return Ok(operationType);
         }
 
