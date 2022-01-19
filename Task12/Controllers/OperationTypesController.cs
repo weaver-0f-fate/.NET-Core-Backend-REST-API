@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Services.DataTransferObjects;
+using Services.DataTransferObjects.OperationTypesDTOs;
 using Services.Interfaces;
 
 namespace Task12.Controllers {
@@ -34,23 +34,28 @@ namespace Task12.Controllers {
 
         // POST api/operationTypes
         [HttpPost]
-        public async Task<ActionResult<OperationTypeDTO>> Post(OperationTypeDTO operationType) {
+        public async Task<ActionResult<OperationTypeDTO>> Post([FromBody]OperationTypeForCreateDTO operationType) {
             if (operationType == null) {
                 return BadRequest();
             }
 
-            await _operationTypesService.CreateAsync(operationType);
+            await _operationTypesService.CreateOperationTypeAsync(operationType);
             return Ok(operationType);
         }
 
         // PUT api/operationTypes/
         [HttpPut]
-        public async Task<ActionResult<OperationTypeDTO>> Put(OperationTypeDTO operationType) {
-            if (operationType == null) {
-                return BadRequest();
+        public async Task<ActionResult<OperationTypeDTO>> Put(int id, [FromBody]OperationTypeForUpdateDTO updatedOperationType) {
+            if (updatedOperationType == null) {
+                return BadRequest("OperationType object is null");
             }
-            await _operationTypesService.UpdateAsync(operationType);
-            return Ok(operationType);
+            var operationType = await _operationTypesService.GetByIdAsync(id);
+            if(operationType is null) {
+                return NotFound($"There is no Operation Type with id: {id}");
+            }
+
+            await _operationTypesService.UpdateOperationTypeAsync(id, updatedOperationType);
+            return Ok(updatedOperationType);
         }
 
         // DELETE api/operationTypes/5

@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Core.Models;
 using Services.Interfaces;
-using Services.DataTransferObjects;
+using Services.DataTransferObjects.OperationDTOs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Interfaces;
+using Services.DataTransferObjects;
 
 namespace Services.Services {
     public class OperationsService : AbstractService<Operation, OperationDTO>, IOperationsService {
@@ -14,6 +15,15 @@ namespace Services.Services {
             : base(repository.Operations, mapper) {
             _repository = repository;
         }
+
+        public async Task CreateOperationAsync(OperationForCreateDTO operationDTO) {
+            await CreateAsync(Mapper.Map<OperationDTO>(operationDTO));
+        }
+
+        public async Task UpdateOperationAsync(OperationForUpdateDTO operationDTO) {
+            await UpdateAsync(Mapper.Map<OperationDTO>(operationDTO));
+        }
+
         public async Task<OutcomeDTO> GetAtDateAsync(DateTime date) {
             var operations = await _repository.Operations.GetAtDateAsync(date);
             return CalculateOutcome(operations, date, date);
@@ -23,6 +33,8 @@ namespace Services.Services {
             var operations = await _repository.Operations.GetAtPeriodAsync(startDate, endDate);
             return CalculateOutcome(operations, startDate, endDate);
         }
+
+        
 
         private OutcomeDTO CalculateOutcome(IEnumerable<Operation> operations, DateTime startDate, DateTime endDate) {
             var operationDTOs = Mapper.Map<IEnumerable<OperationDTO>>(operations);

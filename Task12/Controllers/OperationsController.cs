@@ -3,7 +3,7 @@ using Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Services.DataTransferObjects;
+using Services.DataTransferObjects.OperationDTOs;
 
 namespace Task12.Controllers {
     [Route("api/[controller]")]
@@ -34,21 +34,21 @@ namespace Task12.Controllers {
 
         // POST api/operations
         [HttpPost]
-        public async Task<ActionResult<OperationDTO>> Post([FromBody]OperationDTO operation) {
+        public async Task<ActionResult<OperationDTO>> Post([FromBody]OperationForCreateDTO operation) {
             if (operation == null) {
                 return BadRequest();
             }
-            await _operationsService.CreateAsync(operation);
+            await _operationsService.CreateOperationAsync(operation);
             return Ok(operation);
         }
 
         // PUT api/operations/
         [HttpPut]
-        public async Task<ActionResult<OperationDTO>> Put(int id, [FromBody]OperationDTO operation) {
+        public async Task<ActionResult<OperationDTO>> Put(int id, [FromBody]OperationForUpdateDTO operation) {
             if (operation == null) {
                 return BadRequest();
             }
-            await _operationsService.UpdateAsync(operation);
+            await _operationsService.UpdateOperationAsync(operation);
             return Ok(operation);
         }
 

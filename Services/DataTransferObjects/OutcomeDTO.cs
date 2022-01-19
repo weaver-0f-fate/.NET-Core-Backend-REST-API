@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Services.DataTransferObjects.OperationDTOs;
+using System;
 using System.Collections.Generic;
 
 namespace Services.DataTransferObjects {
