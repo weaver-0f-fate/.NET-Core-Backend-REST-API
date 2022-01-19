@@ -34,13 +34,5 @@ namespace Data.Repositories {
         public async Task<IEnumerable<Operation>> GetAtPeriodAsync(DateTime startDate, DateTime endDate) {
             return await GetByConditionAsync(x => x.Date.Date >= startDate.Date && x.Date <= endDate.Date);
         }
-
-        public async Task<Operation> CreateOperationAsync(Operation operation) {
-            return await CreateAsync(operation);
-        }
-
-        public async Task<Operation> UpdateOperationAsync(Operation operation) {
-            return await UpdateAsync(operation);
-        }
     }
 }

@@ -22,7 +22,7 @@ namespace Services.Services {
 
             var dto = Mapper.Map<OperationTypeDTO>(operationTypeDTO);
             var item = Mapper.Map<OperationType>(dto);
-            var modelItem = await _repository.OperationTypes.CreateOperationTypeAsync(item);
+            var modelItem = await _repository.OperationTypes.CreateAsync(item);
             return Mapper.Map<OperationTypeDTO>(modelItem);
         }
 
@@ -36,7 +36,7 @@ namespace Services.Services {
             operationTypeDTO.Id = id;
             var item = Mapper.Map<OperationType>(operationTypeDTO);
 
-            var modelItem = await _repository.OperationTypes.UpdateOperationTypeAsync(item);
+            var modelItem = await _repository.OperationTypes.UpdateAsync(item);
             return Mapper.Map<OperationTypeDTO>(modelItem);
         }
     }

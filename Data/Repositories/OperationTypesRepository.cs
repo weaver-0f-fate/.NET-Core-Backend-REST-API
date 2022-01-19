@@ -10,14 +10,6 @@ using System.Threading.Tasks;
 namespace Data.Repositories {
     public class OperationTypesRepository : AbstractRepository<OperationType>, IOperationTypesRepository{
         public OperationTypesRepository(RepositoryContext context) : base(context) { }
-
-        public async Task<OperationType> CreateOperationTypeAsync(OperationType operationType) {
-            return await CreateAsync(operationType);
-        }
-        public async Task<OperationType> UpdateOperationTypeAsync(OperationType operationType) {
-            return await UpdateAsync(operationType);
-        }
-
         public override async Task<IEnumerable<OperationType>> GetAllAsync() {
             return await Context.Set<OperationType>()
                     .AsNoTracking()
