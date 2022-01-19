@@ -17,7 +17,10 @@ namespace Services.Services {
         }
 
         public async Task CreateOperationAsync(OperationForCreateDTO operationDTO) {
-            await CreateAsync(Mapper.Map<OperationDTO>(operationDTO));
+            var operation = Mapper.Map<OperationDTO>(operationDTO);
+            var item = Mapper.Map<Operation>(operation);
+            await _repository.Operations.CreateOperationAsync(item);
+            //await CreateAsync(operation);
         }
 
         public async Task UpdateOperationAsync(int id, OperationForUpdateDTO operationForUpdateDTO) {
@@ -36,8 +39,7 @@ namespace Services.Services {
             return CalculateOutcome(operations, startDate, endDate);
         }
 
-        
-
+       
         private OutcomeDTO CalculateOutcome(IEnumerable<Operation> operations, DateTime startDate, DateTime endDate) {
             var operationDTOs = Mapper.Map<IEnumerable<OperationDTO>>(operations);
             double totalIncome = 0, totalExpenses = 0;

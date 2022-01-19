@@ -34,5 +34,14 @@ namespace Data.Repositories {
         public async Task<IEnumerable<Operation>> GetAtPeriodAsync(DateTime startDate, DateTime endDate) {
             return await GetByConditionAsync(x => x.Date.Date >= startDate.Date && x.Date <= endDate.Date);
         }
+
+        public async Task CreateOperationAsync(Operation operation) {
+            var operationType = Context.Set<OperationType>().Where(x => x.Name == operation.OperationTypeName).FirstOrDefault();
+            if(operationType is null) {
+                throw new Exception("Required operation type doesn't exist");
+            }
+            operation.OperationType = operationType;
+            await CreateAsync(operation);
+        }
     }
 }

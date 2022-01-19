@@ -15,7 +15,7 @@ namespace Task12.Extensions {
                     if (contextFeature != null) {
                         await context.Response.WriteAsync(new ErrorDetails() {
                             StatusCode = context.Response.StatusCode,
-                            Message = "Internal Server Error."
+                            Message = $"Internal Server Error. {contextFeature.Error.Message}"
                         }.ToString());
                     }
                 });
