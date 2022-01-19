@@ -9,7 +9,7 @@ using Data.Interfaces;
 using Services.DataTransferObjects;
 
 namespace Services.Services {
-    public class OperationsService : AbstractService<Operation, OperationDTO>, IOperationsService {
+    public class OperationsService : AbstractService<Operation, OperationDTO>, IServiceWrapper {
         private IRepositoryWrapper _repository;
         public OperationsService(IRepositoryWrapper repository, IMapper mapper) 
             : base(repository.Operations, mapper) {

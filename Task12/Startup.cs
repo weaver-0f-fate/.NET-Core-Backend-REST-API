@@ -6,8 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Services.Interfaces;
-using Services.Services;
 using Task12.Extensions;
 
 namespace Task12 {
@@ -36,10 +34,7 @@ namespace Task12 {
 
 
             services.ConfigureRepositoryWrapper();
-
-            services.AddTransient<IOperationsService, OperationsService>();
-            services.AddTransient<IOperationTypesService, OperationTypesService>();
-
+            services.ConfigureServiceWrapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

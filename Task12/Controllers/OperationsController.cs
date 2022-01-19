@@ -9,22 +9,22 @@ namespace Task12.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class OperationsController : ControllerBase {
-        private readonly IOperationsService _operationsService;
+        private readonly IOperationsService _service;
 
-        public OperationsController(IOperationsService service) {
-            _operationsService = service;
+        public OperationsController(IServiceWrapper service) {
+            _service = service.OperationsService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OperationDTO>>> Get() {
-            var operations = await _operationsService.GetAllItemsAsync();
+            var operations = await _service.GetAllItemsAsync();
             return operations.ToList();
         }
 
         // GET api/operations/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OperationDTO>> Get(int id) {
-            var operation = await _operationsService.GetByIdAsync(id);
+            var operation = await _service.GetByIdAsync(id);
             if (operation == null) {
                 return NotFound();
             }
@@ -38,7 +38,7 @@ namespace Task12.Controllers {
             if (operation == null) {
                 return BadRequest();
             }
-            await _operationsService.CreateOperationAsync(operation);
+            await _service.CreateOperationAsync(operation);
             return Ok();
         }
 
@@ -49,21 +49,21 @@ namespace Task12.Controllers {
                 return BadRequest("Operation object is null");
             }
 
-            if (!await _operationsService.ExistsAsync(id)) {
+            if (!await _service.ExistsAsync(id)) {
                 return NotFound($"There is no Operation with id: {id}");
             }
 
-            await _operationsService.UpdateOperationAsync(id, updatedOperation);
+            await _service.UpdateOperationAsync(id, updatedOperation);
             return Ok();
         }
 
         // DELETE api/operations/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<OperationDTO>> Delete(int id) {
-            if (!await _operationsService.ExistsAsync(id)) {
+            if (!await _service.ExistsAsync(id)) {
                 return NotFound($"There is no Operation with id: {id}");
             }
-            await _operationsService.DeleteAsync(id);
+            await _service.DeleteAsync(id);
             return Ok();
         }
     }
