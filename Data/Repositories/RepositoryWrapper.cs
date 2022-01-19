@@ -1,5 +1,4 @@
 ﻿using Data.Interfaces;
-using System.Threading.Tasks;
 
 namespace Data.Repositories {
     public class RepositoryWrapper : IRepositoryWrapper {
@@ -24,10 +23,6 @@ namespace Data.Repositories {
         }
         public RepositoryWrapper(RepositoryContext repositoryContext) {
             _context = repositoryContext;
-        }
-
-        public async Task Save() {
-            await _context.SaveChangesAsync();
         }
     }
 }
