@@ -39,8 +39,8 @@ namespace Task12.Controllers {
                 return BadRequest();
             }
 
-            await _operationTypesService.CreateOperationTypeAsync(operationType);
-            return Ok();
+            var response = await _operationTypesService.CreateOperationTypeAsync(operationType);
+            return Ok(response);
         }
 
         // PUT api/operationTypes/
@@ -54,8 +54,8 @@ namespace Task12.Controllers {
                 return NotFound($"There is no Operation Type with id: {id}");
             }
 
-            await _operationTypesService.UpdateOperationTypeAsync(id, updatedOperationType);
-            return Ok();
+            var response = await _operationTypesService.UpdateOperationTypeAsync(id, updatedOperationType);
+            return Ok(response);
         }
 
         // DELETE api/operationTypes/5

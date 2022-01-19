@@ -26,13 +26,15 @@ namespace Services.Services {
             var item = await Repository.GetByIdAsync(id);
             return Mapper.Map<TDTO>(item);
         }
-        public async Task CreateAsync(TDTO itemDTO) {
+        public async Task<TDTO> CreateAsync(TDTO itemDTO) {
             var item = Mapper.Map<TModel>(itemDTO);
-            await Repository.CreateAsync(item);
+            var modelItem = await Repository.CreateAsync(item);
+            return Mapper.Map<TDTO>(modelItem);
         }
-        public async Task UpdateAsync(TDTO itemDTO) {
+        public async Task<TDTO> UpdateAsync(TDTO itemDTO) {
             var item = Mapper.Map<TModel>(itemDTO);
-            await Repository.UpdateAsync(item);
+            var modelItem = await Repository.UpdateAsync(item);
+            return Mapper.Map<TDTO>(modelItem);
         }
         public async Task DeleteAsync(int id) {
             await Repository.DeleteAsync(id);

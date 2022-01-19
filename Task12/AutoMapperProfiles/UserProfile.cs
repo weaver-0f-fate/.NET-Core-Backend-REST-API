@@ -15,9 +15,8 @@ namespace Task12.AutoMapperProfiles {
 
 
             CreateMap<Operation, OperationDTO>()
-                .ForMember(x => x.OperationType, y => y.MapFrom(src => src.OperationType.Name));
+                .ForMember(x => x.OperationTypeName, y => y.MapFrom(src => src.OperationType.Name));
             CreateMap<OperationDTO, Operation>()
-                .ForMember(x => x.OperationTypeName, y => y.MapFrom(src => src.OperationType))
                 .ForMember(x => x.OperationType, y => y.Ignore());
 
             CreateMap<OperationForCreateDTO, OperationDTO>();

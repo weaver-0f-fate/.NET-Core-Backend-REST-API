@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Services.Interfaces {
     public interface IOperationTypesService : IService<OperationType, OperationTypeDTO> {
 
-        public Task CreateOperationTypeAsync(OperationTypeForCreateDTO operationTypeDTO);
-        public Task UpdateOperationTypeAsync(int id, OperationTypeForUpdateDTO operationTypeDTO);
+        public Task<OperationTypeDTO> CreateOperationTypeAsync(OperationTypeForCreateDTO operationTypeDTO);
+        public Task<OperationTypeDTO> UpdateOperationTypeAsync(int id, OperationTypeForUpdateDTO operationTypeDTO);
     }
 }

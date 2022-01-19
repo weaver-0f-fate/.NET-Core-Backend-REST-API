@@ -9,8 +9,8 @@ namespace Data.Interfaces {
         Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression);
         Task<T> GetByIdAsync(int id);
-        Task CreateAsync(T item);
-        Task UpdateAsync(T item);
+        Task<T> CreateAsync(T item);
+        Task<T> UpdateAsync(T item);
         Task DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);
         Task SaveChangesAsync();

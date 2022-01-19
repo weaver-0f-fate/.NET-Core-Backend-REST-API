@@ -38,8 +38,8 @@ namespace Task12.Controllers {
             if (operation == null) {
                 return BadRequest();
             }
-            await _service.CreateOperationAsync(operation);
-            return Ok();
+            var response = await _service.CreateOperationAsync(operation);
+            return Ok(response);
         }
 
         // PUT api/operations/
@@ -53,8 +53,8 @@ namespace Task12.Controllers {
                 return NotFound($"There is no Operation with id: {id}");
             }
 
-            await _service.UpdateOperationAsync(id, updatedOperation);
-            return Ok();
+            var response = await _service.UpdateOperationAsync(id, updatedOperation);
+            return Ok(response);
         }
 
         // DELETE api/operations/5

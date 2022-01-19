@@ -9,24 +9,41 @@ using Data.Interfaces;
 using Services.DataTransferObjects;
 
 namespace Services.Services {
-    public class OperationsService : AbstractService<Operation, OperationDTO>, IServiceWrapper {
+    public class OperationsService : AbstractService<Operation, OperationDTO>, IOperationsService {
         private IRepositoryWrapper _repository;
         public OperationsService(IRepositoryWrapper repository, IMapper mapper) 
             : base(repository.Operations, mapper) {
             _repository = repository;
         }
 
-        public async Task CreateOperationAsync(OperationForCreateDTO operationDTO) {
+        public async Task<OperationDTO> CreateOperationAsync(OperationForCreateDTO operationDTO) {
+            var opType = await _repository.OperationTypes.GetOperationTypeByNameAsync(operationDTO.OperationType);
+            if (opType is null) {
+                throw new Exception("Required operation type doesn't exist");
+            }
+
             var operation = Mapper.Map<OperationDTO>(operationDTO);
             var item = Mapper.Map<Operation>(operation);
-            await _repository.Operations.CreateOperationAsync(item);
+            item.OperationTypeId = opType.Id;
+
+            var modelItem = await _repository.Operations.CreateOperationAsync(item);
+            return Mapper.Map<OperationDTO>(modelItem);
         }
 
-        public async Task UpdateOperationAsync(int id, OperationForUpdateDTO operationForUpdateDTO) {
+        public async Task<OperationDTO> UpdateOperationAsync(int id, OperationForUpdateDTO operationForUpdateDTO) {
+            var opType = await _repository.OperationTypes.GetOperationTypeByNameAsync(operationForUpdateDTO.OperationType);
+            if (opType is null) {
+                throw new Exception("Required operation type doesn't exist");
+            }
+            
+
             var operationDTO = Mapper.Map<OperationDTO>(operationForUpdateDTO);
             operationDTO.Id = id;
             var item = Mapper.Map<Operation>(operationDTO);
-            await _repository.Operations.UpdateOperationAsync(item);
+            item.OperationTypeId = opType.Id;
+
+            var modelItem = await _repository.Operations.UpdateOperationAsync(item);
+            return Mapper.Map<OperationDTO>(modelItem);
         }
 
         public async Task<OutcomeDTO> GetAtDateAsync(DateTime date) {

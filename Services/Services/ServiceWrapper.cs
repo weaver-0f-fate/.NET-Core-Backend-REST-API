@@ -6,9 +6,9 @@ namespace Services.Services {
     public class ServiceWrapper : IServiceWrapper {
         private IRepositoryWrapper _repositoryWrapper;
         private IMapper _mapper;
-        private IServiceWrapper _operationsService;
+        private IOperationsService _operationsService;
         private IOperationTypesService _operationTypesService;
-        public IServiceWrapper OperationsService {
+        public IOperationsService OperationsService {
             get {
                 if (_operationsService == null) {
                     _operationsService = new OperationsService(_repositoryWrapper, _mapper);

@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Core.Models;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Interfaces;
 using System.Linq.Expressions;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Data.Repositories {
     public abstract class AbstractRepository<T> : IRepository<T> where T : AbstractModel{
@@ -24,20 +24,22 @@ namespace Data.Repositories {
             return items.FirstOrDefault();
         }
 
-        public async Task CreateAsync(T item) {
+        public async Task<T> CreateAsync(T item) {
             if (item is null) {
                 throw new Exception("Source Item wasn't provided.");
             }
-            await Context.Set<T>().AddAsync(item);
+            var newItem = await Context.Set<T>().AddAsync(item);
             await SaveChangesAsync();
+            return await GetByIdAsync(newItem.Entity.Id);
 
         }
-        public async Task UpdateAsync(T item) {
+        public async Task<T> UpdateAsync(T item) {
             if (item is null) {
                 throw new Exception("Source Item wasn't provided.");
             }
-            Context.Set<T>().Update(item);
+            var updatedItem = Context.Set<T>().Update(item);
             await SaveChangesAsync();
+            return await GetByIdAsync(updatedItem.Entity.Id);
 
         }
         public async Task DeleteAsync(int id) {
