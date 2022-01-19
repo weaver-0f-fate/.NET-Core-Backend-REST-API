@@ -26,7 +26,7 @@ namespace Data.Repositories {
 
         public async Task CreateAsync(T item) {
             if (item is null) {
-                return;
+                throw new Exception("Source Item wasn't provided.");
             }
             await Context.Set<T>().AddAsync(item);
             await SaveAsync();
@@ -34,7 +34,7 @@ namespace Data.Repositories {
         }
         public async Task UpdateAsync(T item) {
             if (item is null) {
-                return;
+                throw new Exception("Source Item wasn't provided.");
             }
             Context.Set<T>().Update(item);
             await SaveAsync();

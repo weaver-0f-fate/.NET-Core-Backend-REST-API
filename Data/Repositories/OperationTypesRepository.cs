@@ -11,6 +11,21 @@ namespace Data.Repositories {
     public class OperationTypesRepository : AbstractRepository<OperationType>, IOperationTypesRepository{
         public OperationTypesRepository(RepositoryContext context) : base(context) { }
 
+        public async Task CreateOperationTypeAsync(OperationType operationType) {
+            var type = GetByConditionAsync(x => x.Name == operationType.Name);
+            if(type is not null) {
+                throw new Exception("Operation Type with this name already exists.");
+            }
+            await CreateAsync(operationType);
+        }
+        public async Task UpdateOperationTypeAsync(OperationType operationType) {
+            var type = GetByConditionAsync(x => x.Name == operationType.Name);
+            if (type is not null) {
+                throw new Exception("Operation Type with this name already exists.");
+            }
+            await UpdateAsync(operationType);
+        }
+
         public override async Task<IEnumerable<OperationType>> GetAllAsync() {
             return await Context.Set<OperationType>()
                     .AsNoTracking()
@@ -23,5 +38,6 @@ namespace Data.Repositories {
                     .ToListAsync();
         }
 
+        
     }
 }

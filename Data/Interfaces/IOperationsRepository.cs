@@ -8,5 +8,6 @@ namespace Data.Interfaces {
         public Task<IEnumerable<Operation>> GetAtDateAsync(DateTime date);
         public Task<IEnumerable<Operation>> GetAtPeriodAsync(DateTime startDate, DateTime endDate);
         public Task CreateOperationAsync(Operation operation);
+        public Task UpdateOperationAsync(Operation operation);
     }
 }

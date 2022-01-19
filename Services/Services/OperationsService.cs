@@ -20,13 +20,13 @@ namespace Services.Services {
             var operation = Mapper.Map<OperationDTO>(operationDTO);
             var item = Mapper.Map<Operation>(operation);
             await _repository.Operations.CreateOperationAsync(item);
-            //await CreateAsync(operation);
         }
 
         public async Task UpdateOperationAsync(int id, OperationForUpdateDTO operationForUpdateDTO) {
             var operationDTO = Mapper.Map<OperationDTO>(operationForUpdateDTO);
             operationDTO.Id = id;
-            await UpdateAsync(operationDTO);
+            var item = Mapper.Map<Operation>(operationDTO);
+            await _repository.Operations.UpdateOperationAsync(item);
         }
 
         public async Task<OutcomeDTO> GetAtDateAsync(DateTime date) {
