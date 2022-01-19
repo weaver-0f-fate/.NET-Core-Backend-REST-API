@@ -11,5 +11,6 @@ namespace Services.Interfaces {
         public Task UpdateOperationAsync(int id, OperationForUpdateDTO operationDTO);
         public Task<OutcomeDTO> GetAtDateAsync(DateTime date);
         public Task<OutcomeDTO> GetAtPeriodAsync(DateTime startDate, DateTime endDate);
+        
     }
 }

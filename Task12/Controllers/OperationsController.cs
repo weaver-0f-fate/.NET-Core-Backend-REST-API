@@ -39,7 +39,7 @@ namespace Task12.Controllers {
                 return BadRequest();
             }
             await _operationsService.CreateOperationAsync(operation);
-            return Ok(operation);
+            return Ok();
         }
 
         // PUT api/operations/
@@ -48,23 +48,23 @@ namespace Task12.Controllers {
             if (updatedOperation == null) {
                 return BadRequest("Operation object is null");
             }
-            var operation = await _operationsService.GetByIdAsync(id);
-            if (operation is null) {
-                return NotFound($"There is no Operation Type with id: {id}");
+
+            if (!await _operationsService.ExistsAsync(id)) {
+                return NotFound($"There is no Operation with id: {id}");
             }
+
             await _operationsService.UpdateOperationAsync(id, updatedOperation);
-            return Ok(operation);
+            return Ok();
         }
 
         // DELETE api/operations/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<OperationDTO>> Delete(int id) {
-            var operation = await _operationsService.GetByIdAsync(id);
-            if (operation == null) {
-                return NotFound();
+            if (!await _operationsService.ExistsAsync(id)) {
+                return NotFound($"There is no Operation with id: {id}");
             }
-            await _operationsService.DeleteAsync(operation);
-            return Ok(operation);
+            await _operationsService.DeleteAsync(id);
+            return Ok();
         }
     }
 }

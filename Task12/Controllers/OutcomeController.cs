@@ -14,21 +14,16 @@ namespace Task12.Controllers {
             _service = service;
         }
 
-        // GET api/outcome/5
+        // GET api/outcome/Date
         [HttpGet, Route("Date")]
         public async Task<ActionResult<OutcomeDTO>> Get(DateTime date) {
-            var outcome = await _service.GetAtDateAsync(date);
-            return outcome;
+            return await _service.GetAtDateAsync(date);
         }
 
-        // GET api/outcome/5
+        // GET api/outcome/Period
         [HttpGet, Route("Period")]
         public async Task<ActionResult<OutcomeDTO>> Get(DateTime startDate, DateTime endDate) {
-            var outcome = await _service.GetAtPeriodAsync(startDate, endDate);
-            if (outcome == null) {
-                return NotFound();
-            }
-            return outcome;
+            return await _service.GetAtPeriodAsync(startDate, endDate);
         }
     }
 }

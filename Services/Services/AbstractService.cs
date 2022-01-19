@@ -3,7 +3,6 @@ using Data.Interfaces;
 using Core.Models;
 using Services.Intrefaces;
 using Services.DataTransferObjects;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -35,9 +34,11 @@ namespace Services.Services {
             var item = Mapper.Map<TModel>(itemDTO);
             await Repository.UpdateAsync(item);
         }
-        public async Task DeleteAsync(TDTO itemDTO) {
-            var item = Mapper.Map<TModel>(itemDTO);
-            await Repository.DeleteAsync(item);
+        public async Task DeleteAsync(int id) {
+            await Repository.DeleteAsync(id);
+        }
+        public async Task<bool> ExistsAsync(int id) {
+            return await Repository.ExistsAsync(id);
         }
     }
 }

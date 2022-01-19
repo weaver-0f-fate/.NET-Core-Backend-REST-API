@@ -29,7 +29,7 @@ namespace Data.Repositories {
                 throw new Exception("Source Item wasn't provided.");
             }
             await Context.Set<T>().AddAsync(item);
-            await SaveAsync();
+            await SaveChangesAsync();
 
         }
         public async Task UpdateAsync(T item) {
@@ -37,17 +37,18 @@ namespace Data.Repositories {
                 throw new Exception("Source Item wasn't provided.");
             }
             Context.Set<T>().Update(item);
-            await SaveAsync();
+            await SaveChangesAsync();
 
         }
-        public async Task DeleteAsync(T item) {
+        public async Task DeleteAsync(int id) {
+            var item = await GetByIdAsync(id);
             Context.Set<T>().Remove(item);
-            await SaveAsync();
+            await SaveChangesAsync();
         }
-        public async Task<bool> ExistsAsync(T item) {
-            return await Context.Set<T>().AnyAsync(x => x == item);
+        public async Task<bool> ExistsAsync(int id) {
+            return await Context.Set<T>().AnyAsync(x => x.Id == id);
         }
-        public async  Task SaveAsync() {
+        public async Task SaveChangesAsync() {
             await Context.SaveChangesAsync();
         }
 

@@ -11,8 +11,8 @@ namespace Data.Interfaces {
         Task<T> GetByIdAsync(int id);
         Task CreateAsync(T item);
         Task UpdateAsync(T item);
-        Task DeleteAsync(T item);
-        Task<bool> ExistsAsync(T item);
-        Task SaveAsync();
+        Task DeleteAsync(int id);
+        Task<bool> ExistsAsync(int id);
+        Task SaveChangesAsync();
     }
 }

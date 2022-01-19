@@ -7,10 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Services.Interfaces;
-using Services.Intrefaces;
 using Services.Services;
-using OperationType = Core.Models.OperationType;
-using Services.DataTransferObjects;
 using Task12.Extensions;
 
 namespace Task12 {
