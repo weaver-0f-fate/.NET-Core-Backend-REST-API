@@ -44,17 +44,17 @@ namespace Services.Services {
             return operationType;
         }
 
-        public async Task<OutcomeDTO> GetAtDateAsync(DateTime date) {
+        public async Task<OutcomeDTO> GetOutcomeAtDateAsync(DateTime date) {
             var operations = await _repository.Operations.GetAtDateAsync(date);
-            return CalculateOutcome(operations, date, date);
+            return CreateOutcome(operations, date, date);
         }
 
-        public async Task<OutcomeDTO> GetAtPeriodAsync(DateTime startDate, DateTime endDate) {
+        public async Task<OutcomeDTO> GetOutcomeAtPeriodAsync(DateTime startDate, DateTime endDate) {
             var operations = await _repository.Operations.GetAtPeriodAsync(startDate, endDate);
-            return CalculateOutcome(operations, startDate, endDate);
+            return CreateOutcome(operations, startDate, endDate);
         }
 
-        private OutcomeDTO CalculateOutcome(IEnumerable<Operation> operations, DateTime startDate, DateTime endDate) {
+        private OutcomeDTO CreateOutcome(IEnumerable<Operation> operations, DateTime startDate, DateTime endDate) {
             var operationDTOs = Mapper.Map<IEnumerable<OperationDTO>>(operations);
             double totalIncome = 0, totalExpenses = 0;
 

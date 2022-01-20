@@ -15,29 +15,28 @@ namespace Services.Services {
         }
 
         public async Task<OperationTypeDTO> CreateOperationTypeAsync(OperationTypeForCreateDTO operationTypeDTO) {
-            //var operationType = await getOperationType(operationTypeDTO.Name);
-
-            var item = Mapper.Map<OperationType>(operationTypeDTO);
-            var modelItem = await _repository.OperationTypes.CreateAsync(item);
-            return Mapper.Map<OperationTypeDTO>(modelItem);
+            await CheckForUniqueName(operationTypeDTO.Name);
+            
+            var operationType = Mapper.Map<OperationType>(operationTypeDTO);
+            var createdOperationType = await _repository.OperationTypes.CreateAsync(operationType);
+            return Mapper.Map<OperationTypeDTO>(createdOperationType);
         }
 
         public async Task<OperationTypeDTO> UpdateOperationTypeAsync(Guid id, OperationTypeForUpdateDTO operationTypeDTO) {
-            var operationType = await getOperationType(operationTypeDTO.Name);
+            await CheckForUniqueName(operationTypeDTO.Name);
 
-            var item = Mapper.Map<OperationType>(operationTypeDTO);
-            item.Id = id;
+            var operationType = Mapper.Map<OperationType>(operationTypeDTO);
+            operationType.Id = id;
 
-            var modelItem = await _repository.OperationTypes.UpdateAsync(item);
-            return Mapper.Map<OperationTypeDTO>(modelItem);
+            var updatedOperationType = await _repository.OperationTypes.UpdateAsync(operationType);
+            return Mapper.Map<OperationTypeDTO>(updatedOperationType);
         }
 
-        private async Task<OperationType> getOperationType(string operationTypeName) {
+        private async Task CheckForUniqueName(string operationTypeName) {
             var operationType = await _repository.OperationTypes.GetOperationTypeByNameAsync(operationTypeName);
             if (operationType is not null) {
                 throw new Exception($"Operation type with name {operationTypeName} already exists.");
             }
-            return operationType;
         }
     }
 }
