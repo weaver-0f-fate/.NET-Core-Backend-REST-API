@@ -41,6 +41,9 @@ namespace Data.Repositories {
             if (item is null) {
                 throw new SourceEntityNullException("Source Item wasn't provided.");
             }
+            if (!await ExistsAsync(item.Id)) {
+                throw new EntityNotFoundException($"There is no entity with id: {item.Id}");
+            }
             var updatedItem = Context.Set<T>().Update(item);
             await SaveChangesAsync();
             return await GetByIdAsync(updatedItem.Entity.Id);
