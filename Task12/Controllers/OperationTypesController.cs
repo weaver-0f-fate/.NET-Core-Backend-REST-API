@@ -18,14 +18,14 @@ namespace Task12.Controllers {
 
         // GET api/operationTypes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> Get() {
+        public async Task<ActionResult<IEnumerable<OperationTypeDTO>>> GetAsync() {
             var operationTypes =  await _operationTypesService.GetAllItemsAsync();
             return new ObjectResult(operationTypes.ToList());
         }
 
         // GET api/operationTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OperationTypeDTO>> Get(Guid id) {
+        public async Task<ActionResult<OperationTypeDTO>> GetAsync(Guid id) {
             var operationType = await _operationTypesService.GetByIdAsync(id);
             if (operationType == null) {
                 return NotFound();
@@ -35,7 +35,7 @@ namespace Task12.Controllers {
 
         // POST api/operationTypes
         [HttpPost]
-        public async Task<ActionResult<OperationTypeDTO>> Post([FromBody]OperationTypeForCreateDTO operationType) {
+        public async Task<ActionResult<OperationTypeDTO>> PostAsync([FromBody]OperationTypeForCreateDTO operationType) {
             if (operationType == null) {
                 return BadRequest();
             }
@@ -45,7 +45,7 @@ namespace Task12.Controllers {
 
         // PUT api/operationTypes/
         [HttpPut]
-        public async Task<ActionResult<OperationTypeDTO>> Put(Guid id, [FromBody]OperationTypeForUpdateDTO updatedOperationType) {
+        public async Task<ActionResult<OperationTypeDTO>> PutAsync(Guid id, [FromBody]OperationTypeForUpdateDTO updatedOperationType) {
             if (updatedOperationType is null) {
                 return BadRequest("OperationType object is null");
             }
@@ -60,7 +60,7 @@ namespace Task12.Controllers {
 
         // DELETE api/operationTypes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<OperationTypeDTO>> Delete(Guid id) {
+        public async Task<ActionResult<OperationTypeDTO>> DeleteAsync(Guid id) {
             if(! await _operationTypesService.ExistsAsync(id)) {
                 return NotFound($"There is no Operation Type with id: {id}");
             }

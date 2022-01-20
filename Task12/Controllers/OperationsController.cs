@@ -17,14 +17,14 @@ namespace Task12.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OperationDTO>>> Get() {
+        public async Task<ActionResult<IEnumerable<OperationDTO>>> GetAsync() {
             var operations = await _service.GetAllItemsAsync();
             return operations.ToList();
         }
 
         // GET api/operations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OperationDTO>> Get(Guid id) {
+        public async Task<ActionResult<OperationDTO>> GetAsync(Guid id) {
             var operation = await _service.GetByIdAsync(id);
             if (operation == null) {
                 return NotFound();
@@ -35,7 +35,7 @@ namespace Task12.Controllers {
 
         // POST api/operations
         [HttpPost]
-        public async Task<ActionResult<OperationDTO>> Post([FromBody]OperationForCreateDTO operation) {
+        public async Task<ActionResult<OperationDTO>> PostAsync([FromBody]OperationForCreateDTO operation) {
             if (operation == null) {
                 return BadRequest();
             }
@@ -45,7 +45,7 @@ namespace Task12.Controllers {
 
         // PUT api/operations/
         [HttpPut]
-        public async Task<ActionResult<OperationDTO>> Put(Guid id, [FromBody]OperationForUpdateDTO updatedOperation) {
+        public async Task<ActionResult<OperationDTO>> PutAsync(Guid id, [FromBody]OperationForUpdateDTO updatedOperation) {
             if (updatedOperation == null) {
                 return BadRequest("Operation object is null");
             }
@@ -60,7 +60,7 @@ namespace Task12.Controllers {
 
         // DELETE api/operations/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<OperationDTO>> Delete(Guid id) {
+        public async Task<ActionResult<OperationDTO>> DeleteAsync(Guid id) {
             if (!await _service.ExistsAsync(id)) {
                 return NotFound($"There is no Operation with id: {id}");
             }
