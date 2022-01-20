@@ -23,7 +23,7 @@ namespace Task12.Controllers {
             return Ok(operationTypes.ToList());
         }
 
-        // GET api/operationTypes/5
+        // GET api/operationTypes/
         [HttpGet("{id}")]
         public async Task<ActionResult<OperationTypeDTO>> GetAsync(Guid id) {
             var operationType = await _operationTypesService.GetByIdAsync(id);
@@ -32,16 +32,16 @@ namespace Task12.Controllers {
 
         // POST api/operationTypes
         [HttpPost]
-        public async Task<ActionResult<OperationTypeDTO>> PostAsync([FromBody]OperationTypeForCreateDTO operationType) {
-            var response = await _operationTypesService.CreateOperationTypeAsync(operationType);
-            return Ok(response);
+        public async Task<ActionResult<OperationTypeDTO>> PostAsync([FromBody]OperationTypeForCreateDTO newOperationType) {
+            var operationType = await _operationTypesService.CreateOperationTypeAsync(newOperationType);
+            return Ok(operationType);
         }
 
-        // PUT api/operationTypes/
-        [HttpPut]
+        // PUT api/operationTypes
+        [HttpPut("{id}")]
         public async Task<ActionResult<OperationTypeDTO>> PutAsync(Guid id, [FromBody]OperationTypeForUpdateDTO updatedOperationType) {
-            var response = await _operationTypesService.UpdateOperationTypeAsync(id, updatedOperationType);
-            return Ok(response);
+            var operationType = await _operationTypesService.UpdateOperationTypeAsync(id, updatedOperationType);
+            return Ok(operationType);
         }
 
         // DELETE api/operationTypes/5

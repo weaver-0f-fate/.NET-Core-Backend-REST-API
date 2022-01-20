@@ -19,7 +19,7 @@ namespace Task12.Controllers {
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OperationDTO>>> GetAsync() {
             var operations = await _operationsService.GetAllItemsAsync();
-            return operations.ToList();
+            return Ok(operations.ToList());
         }
 
         // GET api/operations/5
@@ -31,16 +31,16 @@ namespace Task12.Controllers {
 
         // POST api/operations
         [HttpPost]
-        public async Task<ActionResult<OperationDTO>> PostAsync([FromBody]OperationForCreateDTO operation) {
-            var response = await _operationsService.CreateOperationAsync(operation);
+        public async Task<ActionResult<OperationDTO>> PostAsync([FromBody] OperationForCreateDTO newOperation) {
+            var response = await _operationsService.CreateOperationAsync(newOperation);
             return Ok(response);
         }
 
         // PUT api/operations/
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<OperationDTO>> PutAsync(Guid id, [FromBody]OperationForUpdateDTO updatedOperation) {
-            var response = await _operationsService.UpdateOperationAsync(id, updatedOperation);
-            return Ok(response);
+            var operation = await _operationsService.UpdateOperationAsync(id, updatedOperation);
+            return Ok(operation);
         }
 
         // DELETE api/operations/5
