@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using Core.Models;
 using System.Net;
+using System.Text.Json;
 
 namespace Task12.Extensions {
     public static class ExceptionMiddlewareExtensions {
@@ -20,6 +20,14 @@ namespace Task12.Extensions {
                     }
                 });
             });
+        }
+
+        private class ErrorDetails {
+            public int StatusCode { get; set; }
+            public string Message { get; set; }
+            public override string ToString() {
+                return JsonSerializer.Serialize(this);
+            }
         }
     }
 }
