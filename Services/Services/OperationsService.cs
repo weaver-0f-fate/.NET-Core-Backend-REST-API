@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Interfaces;
 using Services.DataTransferObjects;
+using Core.Exceptions;
 
 namespace Services.Services {
     public class OperationsService : AbstractService<Operation, OperationDTO>, IOperationsService {
@@ -42,7 +43,7 @@ namespace Services.Services {
         private async Task<OperationType> getOperationType(string operationTypeName) {
             var operationType = await _operationTypesRepository.GetOperationTypeByNameAsync(operationTypeName);
             if (operationType is null) {
-                throw new Exception("Required operation type doesn't exist");
+                throw new UnknownOperationTypeException("Required operation type doesn't exist");
             }
             return operationType;
         }
@@ -61,8 +62,8 @@ namespace Services.Services {
             var operationDTOs = Mapper.Map<IEnumerable<OperationDTO>>(operations);
             double totalIncome = 0, totalExpenses = 0;
 
-            foreach (var operation in operationDTOs) {
-                if (operation.Amount >= 0) {
+            foreach (var operation in operations) {
+                if (operation.OperationType.IsIncome) {
                     totalIncome += operation.Amount;
                 }
                 else {

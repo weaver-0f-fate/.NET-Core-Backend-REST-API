@@ -6,6 +6,7 @@ using Data.Interfaces;
 using System.Linq.Expressions;
 using System.Linq;
 using System.Collections.Generic;
+using Core.Exceptions;
 
 namespace Data.Repositories {
     public abstract class AbstractRepository<T> : IRepository<T> where T : AbstractModel{
@@ -21,12 +22,15 @@ namespace Data.Repositories {
         public abstract Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression);
         public async Task<T> GetByIdAsync(Guid id) {
             var items = await GetByConditionAsync(x => x.Id == id);
+            if (!items.Any()) {
+                throw new EntityNotFoundException($"There is no entity with id: {id}");
+            }
             return items.FirstOrDefault();
         }
 
         public async Task<T> CreateAsync(T item) {
             if (item is null) {
-                throw new Exception("Source Item wasn't provided.");
+                throw new SourceEntityNullException("Source Item wasn't provided.");
             }
             var newItem = await Context.Set<T>().AddAsync(item);
             await SaveChangesAsync();
@@ -35,7 +39,7 @@ namespace Data.Repositories {
         }
         public async Task<T> UpdateAsync(T item) {
             if (item is null) {
-                throw new Exception("Source Item wasn't provided.");
+                throw new SourceEntityNullException("Source Item wasn't provided.");
             }
             var updatedItem = Context.Set<T>().Update(item);
             await SaveChangesAsync();

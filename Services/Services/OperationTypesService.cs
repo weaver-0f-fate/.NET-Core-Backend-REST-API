@@ -5,6 +5,7 @@ using Services.DataTransferObjects.OperationTypesDTOs;
 using Services.Interfaces;
 using System.Threading.Tasks;
 using System;
+using Core.Exceptions;
 
 namespace Services.Services {
     public class OperationTypesService : AbstractService<OperationType, OperationTypeDTO>, IOperationTypesService{
@@ -35,7 +36,7 @@ namespace Services.Services {
         private async Task CheckForUniqueName(string operationTypeName) {
             var operationType = await _operationTypesRepository.GetOperationTypeByNameAsync(operationTypeName);
             if (operationType is not null) {
-                throw new Exception($"Operation type with name {operationTypeName} already exists.");
+                throw new AddingExistingItemException($"Operation type with name {operationTypeName} already exists.");
             }
         }
     }

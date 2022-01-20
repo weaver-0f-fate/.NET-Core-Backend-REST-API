@@ -43,7 +43,9 @@ namespace Task12 {
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Task12 v1"));
             }
 
-            app.ConfigureExceptionHandler();
+            app.UseStatusCodePages();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 

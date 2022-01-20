@@ -8,22 +8,22 @@ namespace Task12.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class OutcomeController : ControllerBase {
-        private IOperationsService _service;
+        private IOperationsService _operationsService;
 
         public OutcomeController(IOperationsService service) {
-            _service = service;
+            _operationsService = service;
         }
 
         // GET api/outcome/Date
         [HttpGet, Route("Date")]
         public async Task<ActionResult<OutcomeDTO>> GetAsync(DateTime date) {
-            return await _service.GetOutcomeAtDateAsync(date);
+            return await _operationsService.GetOutcomeAtDateAsync(date);
         }
 
         // GET api/outcome/Period
         [HttpGet, Route("Period")]
         public async Task<ActionResult<OutcomeDTO>> GetAsync(DateTime startDate, DateTime endDate) {
-            return await _service.GetOutcomeAtPeriodAsync(startDate, endDate);
+            return await _operationsService.GetOutcomeAtPeriodAsync(startDate, endDate);
         }
     }
 }
