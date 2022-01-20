@@ -5,6 +5,7 @@ using Services.Intrefaces;
 using Services.DataTransferObjects;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace Services.Services {
     public abstract class AbstractService<TModel, TDTO> : IService<TModel, TDTO> 
@@ -22,7 +23,7 @@ namespace Services.Services {
             var items = await Repository.GetAllAsync();
             return Mapper.Map<IEnumerable<TDTO>>(items);
         }
-        public async Task<TDTO> GetByIdAsync(int id) {
+        public async Task<TDTO> GetByIdAsync(Guid id) {
             var item = await Repository.GetByIdAsync(id);
             return Mapper.Map<TDTO>(item);
         }
@@ -36,10 +37,10 @@ namespace Services.Services {
             var modelItem = await Repository.UpdateAsync(item);
             return Mapper.Map<TDTO>(modelItem);
         }
-        public async Task DeleteAsync(int id) {
+        public async Task DeleteAsync(Guid id) {
             await Repository.DeleteAsync(id);
         }
-        public async Task<bool> ExistsAsync(int id) {
+        public async Task<bool> ExistsAsync(Guid id) {
             return await Repository.ExistsAsync(id);
         }
     }

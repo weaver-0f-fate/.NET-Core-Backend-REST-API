@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Services.DataTransferObjects.OperationTypesDTOs;
 using Services.Interfaces;
+using System;
 
 namespace Task12.Controllers {
     [Route("api/[controller]")]
@@ -24,7 +25,7 @@ namespace Task12.Controllers {
 
         // GET api/operationTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OperationTypeDTO>> Get(int id) {
+        public async Task<ActionResult<OperationTypeDTO>> Get(Guid id) {
             var operationType = await _operationTypesService.GetByIdAsync(id);
             if (operationType == null) {
                 return NotFound();
@@ -38,14 +39,13 @@ namespace Task12.Controllers {
             if (operationType == null) {
                 return BadRequest();
             }
-
             var response = await _operationTypesService.CreateOperationTypeAsync(operationType);
             return Ok(response);
         }
 
         // PUT api/operationTypes/
         [HttpPut]
-        public async Task<ActionResult<OperationTypeDTO>> Put(int id, [FromBody]OperationTypeForUpdateDTO updatedOperationType) {
+        public async Task<ActionResult<OperationTypeDTO>> Put(Guid id, [FromBody]OperationTypeForUpdateDTO updatedOperationType) {
             if (updatedOperationType is null) {
                 return BadRequest("OperationType object is null");
             }
@@ -60,7 +60,7 @@ namespace Task12.Controllers {
 
         // DELETE api/operationTypes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<OperationTypeDTO>> Delete(int id) {
+        public async Task<ActionResult<OperationTypeDTO>> Delete(Guid id) {
             if(! await _operationTypesService.ExistsAsync(id)) {
                 return NotFound($"There is no Operation Type with id: {id}");
             }

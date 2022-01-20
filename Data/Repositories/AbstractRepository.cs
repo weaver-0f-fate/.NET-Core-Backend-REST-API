@@ -19,7 +19,7 @@ namespace Data.Repositories {
 
         public abstract Task<IEnumerable<T>> GetAllAsync();
         public abstract Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression);
-        public async Task<T> GetByIdAsync(int id) {
+        public async Task<T> GetByIdAsync(Guid id) {
             var items = await GetByConditionAsync(x => x.Id == id);
             return items.FirstOrDefault();
         }
@@ -42,12 +42,12 @@ namespace Data.Repositories {
             return await GetByIdAsync(updatedItem.Entity.Id);
 
         }
-        public async Task DeleteAsync(int id) {
+        public async Task DeleteAsync(Guid id) {
             var item = await GetByIdAsync(id);
             Context.Set<T>().Remove(item);
             await SaveChangesAsync();
         }
-        public async Task<bool> ExistsAsync(int id) {
+        public async Task<bool> ExistsAsync(Guid id) {
             return await Context.Set<T>().AnyAsync(x => x.Id == id);
         }
         public async Task SaveChangesAsync() {

@@ -17,33 +17,31 @@ namespace Services.Services {
         }
 
         public async Task<OperationDTO> CreateOperationAsync(OperationForCreateDTO operationDTO) {
-            var opType = await _repository.OperationTypes.GetOperationTypeByNameAsync(operationDTO.OperationType);
-            if (opType is null) {
-                throw new Exception("Required operation type doesn't exist");
-            }
+            var operationType = await getOperationType(operationDTO.OperationTypeName);
+            var operation = Mapper.Map<Operation>(operationDTO);
+            operation.OperationTypeId = operationType.Id;
 
-            var operation = Mapper.Map<OperationDTO>(operationDTO);
-            var item = Mapper.Map<Operation>(operation);
-            item.OperationTypeId = opType.Id;
-
-            var modelItem = await _repository.Operations.CreateAsync(item);
+            var modelItem = await _repository.Operations.CreateAsync(operation);
+            
             return Mapper.Map<OperationDTO>(modelItem);
         }
 
-        public async Task<OperationDTO> UpdateOperationAsync(int id, OperationForUpdateDTO operationForUpdateDTO) {
-            var opType = await _repository.OperationTypes.GetOperationTypeByNameAsync(operationForUpdateDTO.OperationType);
-            if (opType is null) {
-                throw new Exception("Required operation type doesn't exist");
-            }
-            
-
-            var operationDTO = Mapper.Map<OperationDTO>(operationForUpdateDTO);
-            operationDTO.Id = id;
+        public async Task<OperationDTO> UpdateOperationAsync(Guid id, OperationForUpdateDTO operationDTO) {
+            var operationType = await getOperationType(operationDTO.OperationTypeName);
             var item = Mapper.Map<Operation>(operationDTO);
-            item.OperationTypeId = opType.Id;
+            item.Id = id;
+            item.OperationTypeId = operationType.Id;
 
             var modelItem = await _repository.Operations.UpdateAsync(item);
             return Mapper.Map<OperationDTO>(modelItem);
+        }
+
+        private async Task<OperationType> getOperationType(string operationTypeName) {
+            var operationType = await _repository.OperationTypes.GetOperationTypeByNameAsync(operationTypeName);
+            if (operationType is null) {
+                throw new Exception("Required operation type doesn't exist");
+            }
+            return operationType;
         }
 
         public async Task<OutcomeDTO> GetAtDateAsync(DateTime date) {
@@ -56,11 +54,9 @@ namespace Services.Services {
             return CalculateOutcome(operations, startDate, endDate);
         }
 
-       
         private OutcomeDTO CalculateOutcome(IEnumerable<Operation> operations, DateTime startDate, DateTime endDate) {
             var operationDTOs = Mapper.Map<IEnumerable<OperationDTO>>(operations);
             double totalIncome = 0, totalExpenses = 0;
-
 
             foreach (var operation in operationDTOs) {
                 if (operation.Amount >= 0) {

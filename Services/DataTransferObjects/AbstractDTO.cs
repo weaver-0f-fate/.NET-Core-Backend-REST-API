@@ -1,6 +1,8 @@
-﻿namespace Services.DataTransferObjects {
+﻿using System;
+
+namespace Services.DataTransferObjects {
     public abstract class AbstractDTO {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
     }
 }

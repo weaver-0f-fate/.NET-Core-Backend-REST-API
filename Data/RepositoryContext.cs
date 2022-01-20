@@ -10,5 +10,10 @@ namespace Data {
 
         public DbSet<Operation> Operations { get; set; }
         public DbSet<OperationType> OperationTypes { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<OperationType>()
+                .HasIndex(operationType => operationType.Name)
+                .IsUnique(true);
+        }
     }
 }

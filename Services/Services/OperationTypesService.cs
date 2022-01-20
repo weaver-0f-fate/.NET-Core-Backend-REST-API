@@ -15,29 +15,29 @@ namespace Services.Services {
         }
 
         public async Task<OperationTypeDTO> CreateOperationTypeAsync(OperationTypeForCreateDTO operationTypeDTO) {
-            var x = await _repository.OperationTypes.GetOperationTypeByNameAsync(operationTypeDTO.Name);
-            if(x is not null) {
-                throw new Exception($"Operation type with name {operationTypeDTO.Name} already exists.");
-            }
+            //var operationType = await getOperationType(operationTypeDTO.Name);
 
-            var dto = Mapper.Map<OperationTypeDTO>(operationTypeDTO);
-            var item = Mapper.Map<OperationType>(dto);
+            var item = Mapper.Map<OperationType>(operationTypeDTO);
             var modelItem = await _repository.OperationTypes.CreateAsync(item);
             return Mapper.Map<OperationTypeDTO>(modelItem);
         }
 
-        public async Task<OperationTypeDTO> UpdateOperationTypeAsync(int id, OperationTypeForUpdateDTO operationTypeForUpdateDTO) {
-            var opType = await _repository.OperationTypes.GetOperationTypeByNameAsync(operationTypeForUpdateDTO.Name);
-            if (opType is not null) {
-                throw new Exception($"Operation type with name {operationTypeForUpdateDTO.Name} already exists.");
-            }
+        public async Task<OperationTypeDTO> UpdateOperationTypeAsync(Guid id, OperationTypeForUpdateDTO operationTypeDTO) {
+            var operationType = await getOperationType(operationTypeDTO.Name);
 
-            var operationTypeDTO = Mapper.Map<OperationTypeDTO>(operationTypeForUpdateDTO);
-            operationTypeDTO.Id = id;
             var item = Mapper.Map<OperationType>(operationTypeDTO);
+            item.Id = id;
 
             var modelItem = await _repository.OperationTypes.UpdateAsync(item);
             return Mapper.Map<OperationTypeDTO>(modelItem);
+        }
+
+        private async Task<OperationType> getOperationType(string operationTypeName) {
+            var operationType = await _repository.OperationTypes.GetOperationTypeByNameAsync(operationTypeName);
+            if (operationType is not null) {
+                throw new Exception($"Operation type with name {operationTypeName} already exists.");
+            }
+            return operationType;
         }
     }
 }

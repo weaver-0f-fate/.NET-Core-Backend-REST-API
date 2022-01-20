@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Services.DataTransferObjects.OperationDTOs;
+using System;
 
 namespace Task12.Controllers {
     [Route("api/[controller]")]
@@ -23,7 +24,7 @@ namespace Task12.Controllers {
 
         // GET api/operations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OperationDTO>> Get(int id) {
+        public async Task<ActionResult<OperationDTO>> Get(Guid id) {
             var operation = await _service.GetByIdAsync(id);
             if (operation == null) {
                 return NotFound();
@@ -44,7 +45,7 @@ namespace Task12.Controllers {
 
         // PUT api/operations/
         [HttpPut]
-        public async Task<ActionResult<OperationDTO>> Put(int id, [FromBody]OperationForUpdateDTO updatedOperation) {
+        public async Task<ActionResult<OperationDTO>> Put(Guid id, [FromBody]OperationForUpdateDTO updatedOperation) {
             if (updatedOperation == null) {
                 return BadRequest("Operation object is null");
             }
@@ -59,7 +60,7 @@ namespace Task12.Controllers {
 
         // DELETE api/operations/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<OperationDTO>> Delete(int id) {
+        public async Task<ActionResult<OperationDTO>> Delete(Guid id) {
             if (!await _service.ExistsAsync(id)) {
                 return NotFound($"There is no Operation with id: {id}");
             }
