@@ -31,10 +31,8 @@ namespace Task12 {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Task12", Version = "v1" });
             });
 
-
-
-            services.ConfigureRepositoryWrapper();
-            services.ConfigureServiceWrapper();
+            services.ConfigureRepositories();
+            services.ConfigureServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

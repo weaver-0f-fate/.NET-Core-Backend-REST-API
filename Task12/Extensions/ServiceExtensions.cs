@@ -6,12 +6,14 @@ using Services.Services;
 
 namespace Task12.Extensions {
     public static class ServiceExtensions {
-        public static void ConfigureRepositoryWrapper(this IServiceCollection services) {
-            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+        public static void ConfigureRepositories(this IServiceCollection services) {
+            services.AddTransient<IOperationsRepository, OperationsRepository>();
+            services.AddTransient<IOperationTypesRepository, OperationTypesRepository>();
         }
 
-        public static void ConfigureServiceWrapper(this IServiceCollection services) {
-            services.AddScoped<IServiceWrapper, ServiceWrapper>();
+        public static void ConfigureServices(this IServiceCollection services) {
+            services.AddTransient<IOperationsService, OperationsService>();
+            services.AddTransient<IOperationTypesService, OperationTypesService>();
         }
     }
 }

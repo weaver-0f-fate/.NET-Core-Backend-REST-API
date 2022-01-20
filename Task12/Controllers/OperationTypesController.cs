@@ -12,8 +12,8 @@ namespace Task12.Controllers {
     public class OperationTypesController : ControllerBase {
         IOperationTypesService _operationTypesService;
 
-        public OperationTypesController(IServiceWrapper service) {
-            _operationTypesService = service.OperationTypesService;
+        public OperationTypesController(IOperationTypesService service) {
+            _operationTypesService = service;
         }
 
         // GET api/operationTypes

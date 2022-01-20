@@ -23,10 +23,8 @@ namespace Data.Repositories {
         }
 
         public async Task<OperationType> GetOperationTypeByNameAsync(string name) {
-            return await Context.Set<OperationType>()
-                .Where(x => x.Name == name)
-                .AsNoTracking()
-                .FirstOrDefaultAsync();
+            var operationType =  await GetByConditionAsync(x => x.Name == name);
+            return operationType.FirstOrDefault();
         }
     }
 }

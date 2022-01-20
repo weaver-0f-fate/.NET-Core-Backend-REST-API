@@ -12,8 +12,8 @@ namespace Task12.Controllers {
     public class OperationsController : ControllerBase {
         private readonly IOperationsService _service;
 
-        public OperationsController(IServiceWrapper service) {
-            _service = service.OperationsService;
+        public OperationsController(IOperationsService service) {
+            _service = service;
         }
 
         [HttpGet]

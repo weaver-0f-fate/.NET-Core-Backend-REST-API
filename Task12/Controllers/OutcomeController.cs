@@ -10,8 +10,8 @@ namespace Task12.Controllers {
     public class OutcomeController : ControllerBase {
         private IOperationsService _service;
 
-        public OutcomeController(IServiceWrapper service) {
-            _service = service.OperationsService;
+        public OutcomeController(IOperationsService service) {
+            _service = service;
         }
 
         // GET api/outcome/Date

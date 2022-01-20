@@ -10,10 +10,13 @@ using Services.DataTransferObjects;
 
 namespace Services.Services {
     public class OperationsService : AbstractService<Operation, OperationDTO>, IOperationsService {
-        private IRepositoryWrapper _repository;
-        public OperationsService(IRepositoryWrapper repository, IMapper mapper) 
-            : base(repository.Operations, mapper) {
-            _repository = repository;
+        private IOperationsRepository _operationsRepository;
+        private IOperationTypesRepository _operationTypesRepository;
+
+        public OperationsService(IOperationsRepository operationsRepository, IOperationTypesRepository operationTypesRepository, IMapper mapper) 
+            : base(operationsRepository, mapper) {
+            _operationsRepository = operationsRepository;
+            _operationTypesRepository = operationTypesRepository;
         }
 
         public async Task<OperationDTO> CreateOperationAsync(OperationForCreateDTO operationDTO) {
@@ -21,7 +24,7 @@ namespace Services.Services {
             var operation = Mapper.Map<Operation>(operationDTO);
             operation.OperationTypeId = operationType.Id;
 
-            var modelItem = await _repository.Operations.CreateAsync(operation);
+            var modelItem = await _operationsRepository.CreateAsync(operation);
             
             return Mapper.Map<OperationDTO>(modelItem);
         }
@@ -32,12 +35,12 @@ namespace Services.Services {
             item.Id = id;
             item.OperationTypeId = operationType.Id;
 
-            var modelItem = await _repository.Operations.UpdateAsync(item);
+            var modelItem = await _operationsRepository.UpdateAsync(item);
             return Mapper.Map<OperationDTO>(modelItem);
         }
 
         private async Task<OperationType> getOperationType(string operationTypeName) {
-            var operationType = await _repository.OperationTypes.GetOperationTypeByNameAsync(operationTypeName);
+            var operationType = await _operationTypesRepository.GetOperationTypeByNameAsync(operationTypeName);
             if (operationType is null) {
                 throw new Exception("Required operation type doesn't exist");
             }
@@ -45,12 +48,12 @@ namespace Services.Services {
         }
 
         public async Task<OutcomeDTO> GetOutcomeAtDateAsync(DateTime date) {
-            var operations = await _repository.Operations.GetAtDateAsync(date);
+            var operations = await _operationsRepository.GetAtDateAsync(date);
             return CreateOutcome(operations, date, date);
         }
 
         public async Task<OutcomeDTO> GetOutcomeAtPeriodAsync(DateTime startDate, DateTime endDate) {
-            var operations = await _repository.Operations.GetAtPeriodAsync(startDate, endDate);
+            var operations = await _operationsRepository.GetAtPeriodAsync(startDate, endDate);
             return CreateOutcome(operations, startDate, endDate);
         }
 
