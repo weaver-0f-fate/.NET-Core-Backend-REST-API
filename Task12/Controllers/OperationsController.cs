@@ -33,7 +33,7 @@ namespace Task12.Controllers {
         [HttpPost]
         public async Task<ActionResult<OperationDTO>> PostAsync([FromBody] OperationForCreateDTO newOperation) {
             var operation = await _operationsService.CreateOperationAsync(newOperation);
-            return CreatedAtAction(nameof(GetAsync), new { id = operation.Id }, operation);
+            return Created(nameof(GetAsync), operation);
         }
 
         // PUT api/operations/

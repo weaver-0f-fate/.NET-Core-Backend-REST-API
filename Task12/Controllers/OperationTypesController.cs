@@ -25,7 +25,7 @@ namespace Task12.Controllers {
 
         // GET api/operationTypes/
         [HttpGet("{id}")]
-        public async Task<ActionResult<OperationTypeDTO>> GetAsync(Guid id) {
+        public async Task<ActionResult<OperationTypeDTO>> GetByIdAsync(Guid id) {
             var operationType = await _operationTypesService.GetByIdAsync(id);
             return Ok(operationType);
         }
@@ -34,7 +34,7 @@ namespace Task12.Controllers {
         [HttpPost]
         public async Task<ActionResult<OperationTypeDTO>> PostAsync([FromBody]OperationTypeForCreateDTO newOperationType) {
             var operationType = await _operationTypesService.CreateOperationTypeAsync(newOperationType);
-            return CreatedAtAction(nameof(GetAsync), new { id = operationType.Id }, operationType);
+            return Created(nameof(GetByIdAsync), operationType);
         }
 
         // PUT api/operationTypes
