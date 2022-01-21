@@ -32,22 +32,22 @@ namespace Task12.Controllers {
         // POST api/operations
         [HttpPost]
         public async Task<ActionResult<OperationDTO>> PostAsync([FromBody] OperationForCreateDTO newOperation) {
-            var response = await _operationsService.CreateOperationAsync(newOperation);
-            return Ok(response);
+            var operation = await _operationsService.CreateOperationAsync(newOperation);
+            return CreatedAtAction(nameof(GetAsync), new { id = operation.Id }, operation);
         }
 
         // PUT api/operations/
         [HttpPut("{id}")]
         public async Task<ActionResult<OperationDTO>> PutAsync(Guid id, [FromBody]OperationForUpdateDTO updatedOperation) {
-            var operation = await _operationsService.UpdateOperationAsync(id, updatedOperation);
-            return Ok(operation);
+            await _operationsService.UpdateOperationAsync(id, updatedOperation);
+            return NoContent();
         }
 
         // DELETE api/operations/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<OperationDTO>> DeleteAsync(Guid id) {
             await _operationsService.DeleteAsync(id);
-            return Ok();
+            return NoContent();
         }
     }
 }
