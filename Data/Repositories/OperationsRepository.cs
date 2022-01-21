@@ -32,7 +32,7 @@ namespace Data.Repositories {
         }
 
         public async Task<IEnumerable<Operation>> GetAtPeriodAsync(DateTime startDate, DateTime endDate) {
-            return await GetByConditionAsync(x => x.Date.Date >= startDate.Date && x.Date <= endDate.Date);
+            return await GetByConditionAsync(x => x.Date.Date >= startDate.Date && x.Date.Date <= endDate.Date.Date);
         }
     }
 }
