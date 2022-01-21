@@ -1,16 +1,12 @@
+using Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Task12.Extensions;
 
 namespace Task12 {
     public class Startup {
@@ -22,26 +18,42 @@ namespace Task12 {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            var connection = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddAutoMapper(typeof(Startup));
+            
+
+            services.AddDbContext<RepositoryContext>(options => 
+                options.UseSqlServer(connection, x => x.MigrationsAssembly("Data")));
 
             services.AddControllers();
+            
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Task12", Version = "v1" });
             });
+
+            services.ConfigureRepositories();
+            services.ConfigureServices();
+            services.ConfigureFluentValidator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RepositoryContext context) {
+            context.Database.Migrate();
+
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Task12 v1"));
             }
 
+            app.UseStatusCodePages();
+
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
