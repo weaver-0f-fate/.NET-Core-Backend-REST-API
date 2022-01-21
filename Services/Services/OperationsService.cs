@@ -21,7 +21,7 @@ namespace Services.Services {
         }
 
         public async Task<OperationDTO> CreateOperationAsync(OperationForCreateDTO operationDTO) {
-            var operationType = await getOperationType(operationDTO.OperationTypeName);
+            var operationType = await getOperationType(operationDTO.OperationTypeId);
             var operation = Mapper.Map<Operation>(operationDTO);
             operation.OperationTypeId = operationType.Id;
 
@@ -31,7 +31,7 @@ namespace Services.Services {
         }
 
         public async Task<OperationDTO> UpdateOperationAsync(Guid id, OperationForUpdateDTO operationDTO) {
-            var operationType = await getOperationType(operationDTO.OperationTypeName);
+            var operationType = await getOperationType(operationDTO.OperationTypeId);
             var item = Mapper.Map<Operation>(operationDTO);
             item.Id = id;
             item.OperationTypeId = operationType.Id;
@@ -40,8 +40,8 @@ namespace Services.Services {
             return Mapper.Map<OperationDTO>(modelItem);
         }
 
-        private async Task<OperationType> getOperationType(string operationTypeName) {
-            var operationType = await _operationTypesRepository.GetOperationTypeByNameAsync(operationTypeName);
+        private async Task<OperationType> getOperationType(Guid operationTypeId) {
+            var operationType = await _operationTypesRepository.GetByIdAsync(operationTypeId);
             if (operationType is null) {
                 throw new UnknownOperationTypeException("Required operation type doesn't exist");
             }
